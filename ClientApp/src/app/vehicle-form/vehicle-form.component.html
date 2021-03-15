@@ -1,0 +1,42 @@
+<form>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Year</label>
+    <input
+      type="number"
+      class="form-control"
+      id="exampleFormControlInput1"
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="exampleFormControlSelect2">Select Make</label>
+    <select
+      *ngIf="makes | async as makes"
+      class="form-control"
+      id="exampleFormControlSelect2"
+      (change)="selectMake($event)"
+    >
+      <option *ngFor='let make of makes'>{{make.name}}</option>
+    </select>
+  </div>
+
+
+  <div class="form-group" *ngIf="avalibleModels">
+    <label for="exampleFormControlSelect2">Select Model</label>
+    <select
+      class="form-control"
+      id="exampleFormControlSelect2"
+      (change)="selectModel($event)"
+    >
+      <option *ngFor='let model of avalibleModels'>{{model.name}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Example textarea</label>
+    <textarea
+      class="form-control"
+      id="exampleFormControlTextarea1"
+      rows="3"
+    ></textarea>
+  </div>
+</form>

@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using DataAnnotations;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace vcar
 {
@@ -20,6 +23,11 @@ namespace vcar
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration["ConnectionStrings:Default"])); <------------to samo |
+            services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration.GetConnectionString("Default")));                //    \/
+                                                                                                                                  
+            services.AddAutoMapper();
+
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

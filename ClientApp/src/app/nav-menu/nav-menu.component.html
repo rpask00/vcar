@@ -20,6 +20,7 @@
         class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
         [ngClass]="{ show: isExpanded }"
       >
+
         <ul class="navbar-nav flex-grow">
           <li
             class="nav-item"
@@ -35,19 +36,16 @@
             class="nav-item"
             [routerLinkActive]="['link-active']"
           >
+            <span
+              class="glyphicon glyphicon-plus-sign"
+              aria-hidden="true"
+            ></span>
             <a
               class="nav-link text-dark"
-              [routerLink]="['/counter']"
-            >Counter</a>
-          </li>
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-          >
-            <a
-              class="nav-link text-dark"
-              [routerLink]="['/fetch-data']"
-            >Fetch data</a>
+              [routerLink]="['/vehicle/new']"
+            >
+
+              New Vehicle</a>
           </li>
         </ul>
       </div>
