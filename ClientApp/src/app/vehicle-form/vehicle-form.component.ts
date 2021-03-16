@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Form, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CarsService } from './../services/cars.service';
 
 @Component({
@@ -8,29 +9,47 @@ import { CarsService } from './../services/cars.service';
 })
 export class VehicleFormComponent implements OnInit {
 
-  models: Promise<any>
   makes: Promise<any>
+  features: Promise<any>
   avalibleModels: any;
+  form: FormGroup
+  SelectedFeatures = new Set();
 
   constructor(
-    private CarsSv: CarsService
-  ) { }
+    private CarsSv: CarsService,
+    private fb: FormBuilder
+  ) {
+    this.form = fb.group({
+      ContactName: ['', [Validators.required]],
+      Email: ['', [Validators.required]],
+      Year: ['', [Validators.required]],
+      Model: ['', [Validators.required]],
+      registerd: ['', [Validators.required]],
+      Features: [new Set(), [Validators.required]],
+    });
+  }
 
   async ngOnInit() {
-    this.models = this.CarsSv.models();
     this.makes = this.CarsSv.makes();
+    this.features = this.CarsSv.features();
   }
 
   selectMake(e) {
     let selected = e.target.value;
     this.makes.then((makes: any[]) => {
-      this.avalibleModels = makes.find(m => m.name == selected).models;
+      this.avalibleModels = makes.find(m => m.id == selected).models;
     })
   }
 
-  selectModel() {
-    
+  selectFeature(e, id) {
+    let chbox: HTMLInputElement = e.target;
+    if (chbox.checked)
+      this.form.value.Features.add(id);
+    else
+      this.form.value.Features.delete(id);
   }
 
+  submitForm() {
+  }
 
 }

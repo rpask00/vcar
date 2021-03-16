@@ -16,4 +16,10 @@ export class CarsService {
     let makes = await fetch("/api/makes")
     return makes.json();
   }
+
+  async features(): Promise<any> {
+    let makes = await fetch("/api/features")
+    return makes.json();
+  }
+
 }
