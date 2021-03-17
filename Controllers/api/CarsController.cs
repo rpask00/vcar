@@ -24,6 +24,22 @@ namespace vcar.Controllers.api
             _mapper = mapper;
         }
 
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCsr(int id)
+        {
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var car = await _context.Cars.Include(c => c.Features).SingleOrDefaultAsync(c => c.Id == id);
+
+            if (car == null)
+                return NotFound();
+
+            return Ok(car);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CarResource carResource)
         {
