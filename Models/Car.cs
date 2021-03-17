@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace vcar.Models
 {
@@ -11,15 +7,28 @@ namespace vcar.Models
     {
         public int Id { get; set; }
 
+        [Required]
         public int ModelId { get; set; }
         public Model Model { get; set; }
 
         [Required]
-        [StringLength(9)]
-        public long ContactPhone { get; set; }
+        [StringLength(30)]
+        public string Email { get; set; }
+        [Required]
+        [StringLength(30)]
+        public string ContactName { get; set; }
+
+
         public int year { get; set; }
-        public int mileage { get; set; }
+        public bool registered { get; set; }
+        public ICollection<CarFeature> Features { get; set; }
+
+        Car()
+        {
+            Features = new List<CarFeature>();
+        }
 
 
     }
 }
+    

@@ -3,14 +3,16 @@ using DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace vcar.Migrations
 {
     [DbContext(typeof(VcarContext))]
-    partial class VcarContextModelSnapshot : ModelSnapshot
+    [Migration("20210315180821_AddFeaturesTable")]
+    partial class AddFeaturesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,21 +27,15 @@ namespace vcar.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ContactName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                    b.Property<long>("ContactPhone")
+                        .HasMaxLength(9)
+                        .HasColumnType("bigint");
 
                     b.Property<int>("ModelId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("registered")
-                        .HasColumnType("bit");
+                    b.Property<int>("mileage")
+                        .HasColumnType("int");
 
                     b.Property<int>("year")
                         .HasColumnType("int");
@@ -49,21 +45,6 @@ namespace vcar.Migrations
                     b.HasIndex("ModelId");
 
                     b.ToTable("Cars");
-                });
-
-            modelBuilder.Entity("vcar.Models.CarFeature", b =>
-                {
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FeatureId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CarId", "FeatureId");
-
-                    b.HasIndex("FeatureId");
-
-                    b.ToTable("CarsFeatures");
                 });
 
             modelBuilder.Entity("vcar.Models.Feature", b =>
@@ -129,25 +110,6 @@ namespace vcar.Migrations
                     b.Navigation("Model");
                 });
 
-            modelBuilder.Entity("vcar.Models.CarFeature", b =>
-                {
-                    b.HasOne("vcar.Models.Car", "Car")
-                        .WithMany("Features")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("vcar.Models.Feature", "Feature")
-                        .WithMany("Features")
-                        .HasForeignKey("FeatureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
-
-                    b.Navigation("Feature");
-                });
-
             modelBuilder.Entity("vcar.Models.Model", b =>
                 {
                     b.HasOne("vcar.Models.Make", "Make")
@@ -157,16 +119,6 @@ namespace vcar.Migrations
                         .IsRequired();
 
                     b.Navigation("Make");
-                });
-
-            modelBuilder.Entity("vcar.Models.Car", b =>
-                {
-                    b.Navigation("Features");
-                });
-
-            modelBuilder.Entity("vcar.Models.Feature", b =>
-                {
-                    b.Navigation("Features");
                 });
 
             modelBuilder.Entity("vcar.Models.Make", b =>

@@ -12,7 +12,6 @@ namespace Vega.Controllers
         {
 
             return Content("asdf");
-            return View();
         }
 
         public IActionResult Error()
