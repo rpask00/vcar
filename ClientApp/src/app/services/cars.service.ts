@@ -1,25 +1,31 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, pipe } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarsService {
 
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
-  async models(): Promise<any> {
-    let models = await fetch("/api/models")
-    return models.json();
+  models(): Observable<any> {
+    return this.http.get('/api/models');
   }
 
-  async makes(): Promise<any> {
-    let makes = await fetch("/api/makes")
-    return makes.json();
+  makes(): Observable<any> {
+    return this.http.get('/api/makes');
   }
 
-  async features(): Promise<any> {
-    let makes = await fetch("/api/features")
-    return makes.json();
+  features(): Observable<any> {
+    return this.http.get('/api/features')
   }
+
+  saveCar(car) {
+    return this.http.post('/api/cars', car);
+  }
+
 
 }

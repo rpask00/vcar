@@ -1,16 +1,18 @@
 <form [formGroup]="form" (ngSubmit)='submitForm()'>
-  <div class="form-group">
-    <h5 for="contactName">Contact Name</h5>
-    <input formControlName='ContactName' type="text" class="form-control" id="contactName" placeholder="Name">
-  </div>
-  <div class="form-group">
-    <h5 for="email">Email address</h5>
-    <input
-           formControlName='Email'
-           type="email" class="form-control" id="email" aria-describedby="emailHelp"
-           placeholder="Enter email">
-  </div>
+  <div formGroupName="Contact">
+    <div class="form-group">
+      <h5 for="contactName">Contact Name</h5>
+      <input formControlName='Name' type="text" class="form-control" id="contactName" placeholder="Name">
+    </div>
+    <div class="form-group">
+      <h5 for="email">Email address</h5>
+      <input
+             formControlName='Email'
+             type="email" class="form-control" id="email" aria-describedby="emailHelp"
+             placeholder="Enter email">
+    </div>
 
+  </div>
   <div class="form-group">
     <h5 for="exampleFormControlInput1">Year</h5>
     <input
@@ -20,9 +22,12 @@
 
   <div class="form-group">
     <h5 for="make">Select Make</h5>
-    <select *ngIf="makes | async as makes"
+    <select
+            formControlName='Make'
+            *ngIf="makes$ | async as makes"
             class="form-control" id="make"
             (change)="selectMake($event)">
+      <option value=''></option>
       <option *ngFor='let make of makes' value="{{make.id}}">{{make.name}}</option>
     </select>
   </div>
@@ -30,7 +35,7 @@
 
   <div class="form-group" *ngIf="avalibleModels">
     <h5 for="modles">Select Model</h5>
-    <select formControlName='Model'
+    <select formControlName='ModelId'
             class="form-control" id="modles">
       <option *ngFor='let model of avalibleModels' value='{{model.id}}'>{{model.name}}</option>
     </select>
@@ -55,9 +60,10 @@
 
   <br>
   <h5>Features</h5>
-  <div class="checkboxes" *ngIf="features | async as features">
+  <div class="checkboxes" *ngIf="features$ | async as features">
     <div class="form-check" *ngFor="let feature of features">
       <input
+             [checked]="form.value.Features.has(feature.id)"
              class="form-check-input"
              type="checkbox"
              value="{{feature.id}}"

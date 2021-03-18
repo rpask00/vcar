@@ -4,7 +4,6 @@ using DataAnnotations;
 using vcar.Core.Models;
 using System.Collections.Generic;
 using vcar.Core;
-using vcar.Core;
 
 namespace vcar.Persistance
 {
