@@ -26,7 +26,7 @@
             formControlName='Make'
             *ngIf="makes$ | async as makes"
             class="form-control" id="make"
-            (change)="selectMake($event)">
+            (change)="selectMake($event.target.value)">
       <option value=''></option>
       <option *ngFor='let make of makes' value="{{make.id}}">{{make.name}}</option>
     </select>
@@ -42,18 +42,18 @@
 
   </div>
 
-  <h5>Is Car registerd?</h5>
+  <h5>Is Car registered?</h5>
   <div>
     <div class="form-check form-check-inline">
-      <input formControlName='registerd'
-             class="form-check-input" type="radio" name="registerd"
-             id="inlineRadio1" value="1" />
+      <input formControlName='registered'
+             class="form-check-input" type="radio" name="registered"
+             id="inlineRadio1" [value]=true />
       <label class="form-check-label" for="inlineRadio1">Yes</label>
     </div>
     <div class="form-check form-check-inline">
-      <input formControlName='registerd'
-             class="form-check-input" type="radio" name="registerd"
-             id="inlineRadio2" value="0" />
+      <input formControlName='registered'
+             class="form-check-input" type="radio" name="registered"
+             id="inlineRadio2" [value]=false />
       <label class="form-check-label" for="inlineRadio2">No</label>
     </div>
   </div>

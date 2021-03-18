@@ -25,7 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: 'vehicle/new', component: VehicleFormComponent, pathMatch: 'full' },
-
+      { path: 'vehicle/:id', component: VehicleFormComponent, pathMatch: 'full' },
     ])
   ],
   providers: [],

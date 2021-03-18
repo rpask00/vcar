@@ -22,7 +22,12 @@ namespace vcar.Persistance
             if (!loadExternal)
                 return await _context.Cars.ToListAsync();
 
-            return await _context.Cars.Include(c => c.Features).Include(c => c.Model).ToListAsync();
+            return await _context.Cars
+            .Include(c => c.Model)
+                .ThenInclude(m => m.Make)
+            .Include(c => c.Features)
+                .ThenInclude(f => f.Feature)
+            .ToListAsync();
         }
 
         public async Task<Car> Get(int id, bool loadExternal = false)

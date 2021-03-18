@@ -23,8 +23,16 @@ export class CarsService {
     return this.http.get('/api/features')
   }
 
-  saveCar(car) {
+  createCar(car): Observable<any> {
     return this.http.post('/api/cars', car);
+  }
+
+  updateCar(car, id): Observable<any> {
+    return this.http.put('/api/cars/' + id, car);
+  }
+
+  getCar(id): Promise<any> {
+    return this.http.get('/api/cars/' + id).toPromise();
   }
 
 
