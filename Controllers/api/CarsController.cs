@@ -25,8 +25,24 @@ namespace vcar.Controllers.api
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> GetCars()
+        {
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var cars = await _context.Cars.Include(c => c.Features).Include(c => c.Model).ToListAsync();
+
+            if (cars == null)
+                return NotFound();
+
+            var carsResource = cars.Select(c => _mapper.Map<Car, CarResource>(c));
+            return Ok(carsResource);
+        }
+
+
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCsr(int id)
+        public async Task<IActionResult> GetCar(int id)
         {
 
             if (!ModelState.IsValid)
@@ -34,26 +50,27 @@ namespace vcar.Controllers.api
 
             var car = await _context.Cars.Include(c => c.Features).SingleOrDefaultAsync(c => c.Id == id);
 
+
             if (car == null)
                 return NotFound();
 
-            return Ok(car);
+            return Ok(_mapper.Map<Car, CarResource>(car));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CarResource carResource)
+        public async Task<IActionResult> Create([FromBody] SaveCarResource scr)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var car = _mapper.Map<CarResource, Car>(carResource);
+            var car = _mapper.Map<SaveCarResource, Car>(scr);
 
             _context.Cars.Add(car);
             await _context.SaveChangesAsync();
 
-            carResource = _mapper.Map<Car, CarResource>(car);
+            scr = _mapper.Map<Car, SaveCarResource>(car);
 
-            return Ok(carResource);
+            return Ok(scr);
         }
 
         [HttpPut("{id}")]

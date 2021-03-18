@@ -14,28 +14,28 @@ namespace vcar.Mapping
         {
             CreateMap<Model, ModelResource>();
             CreateMap<Make, MakeResource>();
-            CreateMap<Car, CarResource>()
-            .ForPath(vr => vr.contact.name, opt => opt.MapFrom(v => v.ContactName))
-            .ForPath(vr => vr.contact.email, opt => opt.MapFrom(v => v.Email))
-            .ForPath(vr => vr.contact.phone, opt => opt.MapFrom(v => 0))
-            .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(f => f.FeatureId)));
+            CreateMap<Car, SaveCarResource>()
+            .ForPath(cr => cr.Contact.name, opt => opt.MapFrom(c => c.ContactName))
+            .ForPath(cr => cr.Contact.email, opt => opt.MapFrom(c => c.Email))
+            .ForPath(cr => cr.Contact.phone, opt => opt.MapFrom(c => 0))
+            .ForMember(cr => cr.Features, opt => opt.MapFrom(c => c.Features.Select(f => f.FeatureId)));
 
-            CreateMap<CarResource, Car>()
-            .ForMember(v => v.Id, opt => opt.Ignore())
-            .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.contact.name))
-            .ForMember(v => v.Email, opt => opt.MapFrom(vr => vr.contact.email))
-            .ForMember(v => v.Features, opt => opt.Ignore())
-            .AfterMap((vr, v) =>
+            CreateMap<SaveCarResource, Car>()
+            .ForMember(c => c.Id, opt => opt.Ignore())
+            .ForMember(c => c.ContactName, opt => opt.MapFrom(cr => cr.Contact.name))
+            .ForMember(c => c.Email, opt => opt.MapFrom(cr => cr.Contact.email))
+            .ForMember(c => c.Features, opt => opt.Ignore())
+            .AfterMap((cr, c) =>
             {
-                var removedFeatures = v.Features.Where(f => !vr.Features.Contains(f.FeatureId));
+                var removedFeatures = c.Features.Where(f => !cr.Features.Contains(f.FeatureId));
                 foreach (var f in removedFeatures)
-                    v.Features.Remove(f);
+                    c.Features.Remove(f);
 
-                var addFeatures = vr.Features.Where(fid => !v.Features.Any(f => f.FeatureId == fid))
+                var addFeatures = cr.Features.Where(fid => !c.Features.Any(f => f.FeatureId == fid))
                 .Select(fid => new CarFeature { FeatureId = fid });
 
                 foreach (var fid in addFeatures)
-                    v.Features.Add(fid);
+                    c.Features.Add(fid);
             });
         }
     }

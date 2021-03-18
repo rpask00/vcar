@@ -1,28 +1,31 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using vcar.Models;
 
 namespace vcar.Controllers.Resources
 {
-    public class Contact
-    {
-        public string name { get; set; }
-        public string phone { get; set; }
-        public string email { get; set; }
-    }
     public class CarResource
     {
-        public Contact contact { get; set; }
+        public class Car
+        {
+            public int Id { get; set; }
+            public MakeResource Make { get; set; }
+            public ModelResource Model { get; set; }
+            public string Email { get; set; }
+            public string ContactName { get; set; }
+            public int Year { get; set; }
+            public bool Registered { get; set; }
+            public ICollection<CarFeature> Features { get; set; }
 
-        [Required]
-        public int ModelId { get; set; }
-
-        public int year { get; set; }
-        public bool registered { get; set; }
-        public ICollection<int> Features { get; set; }
+            Car()
+            {
+                Features = new List<CarFeature>();
+            }
 
 
+        }
     }
 }

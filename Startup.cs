@@ -25,9 +25,7 @@ namespace vcar
         {
             // services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration["ConnectionStrings:Default"])); <------------to samo |
             services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration.GetConnectionString("Default")));                //    \/
-                                                                                                                                  
             services.AddAutoMapper();
-
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
