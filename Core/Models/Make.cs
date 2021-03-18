@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using vcar.Models;
-namespace vcar.Models
-{ 
+using vcar.Core.Models;
+namespace vcar.Core.Models
+{
 
     public class Make
     {
@@ -13,7 +13,8 @@ namespace vcar.Models
 
         public ICollection<Model> Models { get; set; }
 
-        public Make(){
+        public Make()
+        {
             Models = new Collection<Model>();
         }
     }

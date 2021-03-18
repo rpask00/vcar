@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using vcar.Core;
+using vcar.Persistance;
 
 namespace vcar
 {
@@ -25,6 +27,8 @@ namespace vcar
         {
             // services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration["ConnectionStrings:Default"])); <------------to samo |
             services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration.GetConnectionString("Default")));                //    \/
+            services.AddScoped<ICarRepository, CarRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper();
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory

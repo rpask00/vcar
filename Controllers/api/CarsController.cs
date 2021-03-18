@@ -6,32 +6,36 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataAnnotations;
-using vcar.Models;
 using AutoMapper;
 using vcar.Controllers.Resources;
+using vcar.Persistance;
+using vcar.Core.Models;
+using vcar.Core;
 
 namespace vcar.Controllers.api
 {
     [Route("api/cars")]
     public class CarsController : Controller
     {
-        private readonly VcarContext _context;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _UnitOfWork;
+        private readonly ICarRepository _CarRepository;
 
-        public CarsController(VcarContext context, IMapper mapper)
+        public CarsController(IMapper mapper, ICarRepository CarRepository, IUnitOfWork UnitOfWork)
         {
-            _context = context;
             _mapper = mapper;
+            _CarRepository = CarRepository;
+            _UnitOfWork = UnitOfWork;
         }
 
 
         [HttpGet]
         public async Task<IActionResult> GetCars()
         {
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var cars = await _context.Cars.Include(c => c.Features).Include(c => c.Model).ToListAsync();
+
+            var cars = await _CarRepository.GetAll(loadExternal: true);
 
             if (cars == null)
                 return NotFound();
@@ -44,12 +48,10 @@ namespace vcar.Controllers.api
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCar(int id)
         {
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var car = await _context.Cars.Include(c => c.Features).SingleOrDefaultAsync(c => c.Id == id);
-
+            var car = await _CarRepository.Get(id, loadExternal: true);
 
             if (car == null)
                 return NotFound();
@@ -65,28 +67,26 @@ namespace vcar.Controllers.api
 
             var car = _mapper.Map<SaveCarResource, Car>(scr);
 
-            _context.Cars.Add(car);
-            await _context.SaveChangesAsync();
+            _CarRepository.Add(car);
+            await _UnitOfWork.Complete();
+            car = await _CarRepository.Get(car.Id, loadExternal: true);
 
-            scr = _mapper.Map<Car, SaveCarResource>(car);
-
-            return Ok(scr);
+            return Ok(_mapper.Map<Car, CarResource>(car));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] CarResource carResource)
+        public async Task<IActionResult> Update(int id, [FromBody] SaveCarResource carResource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var car = await _context.Cars.Include(c => c.Features).SingleAsync(c => c.Id == id);
-            _mapper.Map<CarResource, Car>(carResource, car);
+            var car = await _CarRepository.Get(id, loadExternal: true);
+            _mapper.Map<SaveCarResource, Car>(carResource, car);
 
-            await _context.SaveChangesAsync();
+            await _UnitOfWork.Complete();
+            car = await _CarRepository.Get(car.Id, loadExternal: true);
 
-            carResource = _mapper.Map<Car, CarResource>(car);
-
-            return Ok(carResource);
+            return Ok(_mapper.Map<Car, CarResource>(car));
         }
 
         [HttpDelete("{id}")]
@@ -96,13 +96,13 @@ namespace vcar.Controllers.api
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var car = await _context.Cars.FindAsync(id);
+            var car = await _CarRepository.Get(id);
 
             if (car == null)
                 return NotFound();
 
-            _context.Cars.Remove(car);
-            await _context.SaveChangesAsync();
+            _CarRepository.Remove(car);
+            await _UnitOfWork.Complete();
 
             return Ok(car);
         }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace vcar.Models
+namespace vcar.Core.Models
 {
     public class Car
     {
@@ -17,8 +17,6 @@ namespace vcar.Models
         [Required]
         [StringLength(30)]
         public string ContactName { get; set; }
-
-
         public int year { get; set; }
         public bool registered { get; set; }
         public ICollection<CarFeature> Features { get; set; }

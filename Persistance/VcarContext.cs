@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using vcar.Models;
+using vcar.Core.Models;
 
 namespace DataAnnotations
 {

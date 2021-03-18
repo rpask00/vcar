@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace vcar.Models
+namespace vcar.Core.Models
 {
     public class Feature
     {

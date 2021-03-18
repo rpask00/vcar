@@ -2,8 +2,8 @@ namespace vcar.Controllers.Resources
 {
     public class ContactResource
     {
-        public string name { get; set; }
-        public string phone { get; set; }
-        public string email { get; set; }
+        public string Name { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
     }
 }

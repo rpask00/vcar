@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace vcar.Models
+namespace vcar.Core.Models
+
 {
     [Table("CarsFeatures")]
     public class CarFeature
