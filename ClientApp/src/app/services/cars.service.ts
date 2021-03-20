@@ -37,23 +37,20 @@ export class CarsService {
   }
 
   getCars(filter?): Observable<Car[]> {
-    let query = []
+    return this.http.get('/api/cars?' + this._toQueryString(filter)) as Observable<Car[]>
+  }
 
-    if (filter.makeId)
-      query.push("MakeId=" + filter.makeId)
+  private _toQueryString(obj): string {
+    let q = []
 
-    if (filter.modelId)
-      query.push("ModelId=" + filter.modelId)
+    for (let key in obj) {
+      let value = obj[key]
+      if (value != null && value != undefined && value != '' && value != [])
+        q.push(encodeURIComponent(key) + "=" + encodeURIComponent(value))
+    }
 
-    if (filter.yearmin)
-      query.push("yearmin=" + filter.yearmin)
+    return q.join("&")
 
-    if (filter.yearmax)
-      query.push("yearmax=" + filter.yearmax)
-
-    let filterString = query ? `?` + query.join('&') : ""
-
-    return this.http.get('/api/cars' + filterString) as Observable<Car[]>
   }
 
   deleteCar(id: number): Observable<Car> {

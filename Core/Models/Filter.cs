@@ -11,8 +11,8 @@ namespace vcar.Core.Models
     {
         public int? ModelId { get; set; }
         public int? MakeId { get; set; }
-        public int yearmax { get; set; }
-        public int yearmin { get; set; }
+        public int? yearmax { get; set; }
+        public int? yearmin { get; set; }
         public ICollection<int> Features { get; set; }
     }
 }

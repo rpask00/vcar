@@ -36,7 +36,7 @@ export class CarsListComponent implements OnInit {
       makeId: [''],
       yearmin: [''],
       yearmax: [''],
-      features: [[]],
+      // features: [[]],
     })
   }
 
@@ -47,30 +47,13 @@ export class CarsListComponent implements OnInit {
       this.makes = makes
     })
 
+    this.filter.controls.makeId.valueChanges.subscribe(makeId => {
+      this.filter.controls.modelId.setValue('')
+      this.models = makeId ? this.models = this.makes.find(m => m.id == makeId).models : null;
+    })
+
     this.filter.valueChanges.subscribe(filter => {
-
       this.cars$ = this.CarSv.getCars(this.filter.value)
-      //   this.cars$ = this.CarSv.getCars().pipe(map(cars => {
-      //   if (filter.makeId) {
-      //     this.models = this.makes.filter(make => make.id == filter.makeId)[0].models
-      //     cars = cars.filter(car => car.make.id == filter.makeId)
-      //   } else {
-      //     this.models = null
-      //     this.filter.controls.modelId.setValue('')
-      //   }
-
-      //   if (filter.modelId)
-      //     cars = cars.filter(car => car.model.id == filter.modelId)
-
-      //   if (filter.yearmax)
-      //     cars = cars.filter(car => car.year <= filter.yearmax)
-
-      //   if (filter.yearmin)
-      //     cars = cars.filter(car => car.year >= filter.yearmin)
-
-      //   return cars
-      // }))
-
     })
   }
 

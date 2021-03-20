@@ -31,6 +31,16 @@ namespace vcar.Persistance
             if (filter.MakeId.HasValue)
                 query = query.Where(c => c.Model.MakeId == filter.MakeId);
 
+            if (filter.ModelId.HasValue)
+                query = query.Where(c => c.Model.Id == filter.ModelId);
+
+            if (filter.yearmax.HasValue)
+                query = query.Where(c => c.year <= filter.yearmax);
+
+            if (filter.yearmin.HasValue)
+                query = query.Where(c => c.year >= filter.yearmin);
+
+
             return await query.ToListAsync();
         }
 
