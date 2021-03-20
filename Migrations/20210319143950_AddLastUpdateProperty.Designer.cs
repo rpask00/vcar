@@ -4,14 +4,16 @@ using DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace vcar.Migrations
 {
     [DbContext(typeof(VcarContext))]
-    partial class VcarContextModelSnapshot : ModelSnapshot
+    [Migration("20210319143950_AddLastUpdateProperty")]
+    partial class AddLastUpdateProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,7 +41,7 @@ namespace vcar.Migrations
                     b.Property<int>("ModelId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("lasUpdate")
+                    b.Property<DateTime>("date")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("registered")

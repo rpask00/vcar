@@ -10,8 +10,14 @@
 .icon-search:before { content: '\e808'; } /* '' */
 .icon-star:before { content: '\e809'; } /* '' */
 .icon-star-empty:before { content: '\e80a'; } /* '' */
+.icon-down-dir:before { content: '\e80b'; } /* '' */
+.icon-up-dir:before { content: '\e80c'; } /* '' */
+.icon-down-micro:before { content: '\e80d'; } /* '' */
+.icon-up-micro:before { content: '\e80e'; } /* '' */
+.icon-home:before { content: '\e80f'; } /* '' */
 .icon-location:before { content: '\f031'; } /* '' */
 .icon-github-circled:before { content: '\f09b'; } /* '' */
+.icon-sort:before { content: '\f0dc'; } /* '' */
 .icon-plus-squared:before { content: '\f0fe'; } /* '' */
 .icon-direction:before { content: '\f124'; } /* '' */
 .icon-trash:before { content: '\f1f8'; } /* '' */

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace vcar.Core.Models
@@ -6,11 +7,9 @@ namespace vcar.Core.Models
     public class Car
     {
         public int Id { get; set; }
-
         [Required]
         public int ModelId { get; set; }
         public Model Model { get; set; }
-
         [Required]
         [StringLength(30)]
         public string Email { get; set; }
@@ -20,6 +19,8 @@ namespace vcar.Core.Models
         public int year { get; set; }
         public bool registered { get; set; }
         public ICollection<CarFeature> Features { get; set; }
+        public DateTime lasUpdate { get; set; }
+
 
         Car()
         {
@@ -29,4 +30,3 @@ namespace vcar.Core.Models
 
     }
 }
-    

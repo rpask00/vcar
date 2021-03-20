@@ -1,9 +1,32 @@
 export interface Car {
-    ContactName: string,
-    Email: string,
-    Year: number,
-    Model: string,
-    Make: string,
-    registeres: boolean,
-    features: number[]
+    id: number,
+    contact: Contact
+    year: number,
+    model: Model,
+    make: Make,
+    registered: boolean,
+    features: Feature[]
+}
+
+
+export interface Contact {
+    name: string,
+    email: string,
+}
+
+export interface Make {
+    id: number,
+    name: string,
+    models: Model[]
+}
+
+export interface Model {
+    id: number,
+    name: string,
+}
+
+
+export interface Feature {
+    id: number,
+    name: string,
 }

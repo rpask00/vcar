@@ -4,6 +4,7 @@ using DataAnnotations;
 using vcar.Core.Models;
 using System.Collections.Generic;
 using vcar.Core;
+using System.Linq;
 
 namespace vcar.Persistance
 {
@@ -15,19 +16,22 @@ namespace vcar.Persistance
         {
             _context = context;
         }
-
-
-        public async Task<List<Car>> GetAll(bool loadExternal = false)
+        public async Task<List<Car>> GetAll(Filter filter, bool loadExternal = false)
         {
             if (!loadExternal)
                 return await _context.Cars.ToListAsync();
 
-            return await _context.Cars
+            var query = _context.Cars
             .Include(c => c.Model)
                 .ThenInclude(m => m.Make)
             .Include(c => c.Features)
                 .ThenInclude(f => f.Feature)
-            .ToListAsync();
+            .AsQueryable();
+
+            if (filter.MakeId.HasValue)
+                query = query.Where(c => c.Model.MakeId == filter.MakeId);
+
+            return await query.ToListAsync();
         }
 
         public async Task<Car> Get(int id, bool loadExternal = false)
@@ -41,7 +45,6 @@ namespace vcar.Persistance
             .Include(c => c.Features)
                 .ThenInclude(f => f.Feature)
             .SingleOrDefaultAsync(c => c.Id == id);
-
         }
 
         public void Add(Car car)
@@ -54,5 +57,6 @@ namespace vcar.Persistance
             _context.Cars.Remove(car);
 
         }
+
     }
 }

@@ -4,7 +4,7 @@ import { CarsService } from './../services/cars.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, pipe } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router, RouteReuseStrategy } from '@angular/router';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -25,6 +25,7 @@ export class VehicleFormComponent implements OnInit {
     private CarsSv: CarsService,
     private toster: ToastrService,
     private route: ActivatedRoute,
+    private router: Router,
     private fb: FormBuilder,
 
   ) {
@@ -42,29 +43,34 @@ export class VehicleFormComponent implements OnInit {
     });
   }
 
-
   async ngOnInit() {
     this.makes$ = this.CarsSv.makes();
     this.features$ = this.CarsSv.features();
     this.id = this.route.snapshot.params['id']
 
     if (this.id) {
-      let car = await this.CarsSv.getCar(this.id)
-      this.form.patchValue({
-        Features: new Set(car.features.map(f => f.id)),
-        Year: car.year,
-        registered: car.registered,
-        ModelId: car.model.id,
-        Make: car.make.id
-      })
+      this.CarsSv.getCar(this.id).subscribe(car => {
 
-      this.Contact.patchValue({
-        Name: car.contact.name,
-        Email: car.contact.email
-      })
+        this.form.patchValue({
+          Features: new Set(car.features.map(f => f.id)),
+          Year: car.year,
+          registered: car.registered,
+          ModelId: car.model.id,
+          Make: car.make.id
+        })
 
-      this.selectMake(car.make.id)
+        this.Contact.patchValue({
+          Name: car.contact.name,
+          Email: car.contact.email
+        })
+
+        this.selectMake(car.make.id)
+      }, err => {
+        if (err.status == 404)
+          this.router.navigate(['/car/new'])
+      })
     }
+
   }
 
   selectMake(selected) {
@@ -76,7 +82,6 @@ export class VehicleFormComponent implements OnInit {
       this.makes$.pipe(take(1)).subscribe((makes: any[]) => {
         this.avalibleModels = makes.find(m => m.id == selected).models;
       });
-
   }
 
   selectFeature(e, id) {
@@ -87,24 +92,39 @@ export class VehicleFormComponent implements OnInit {
       this.form.value.Features.delete(id);
   }
 
-  submitForm() {
 
+  delete() {
+    this.CarsSv.deleteCar(this.id).subscribe((car) => {
+      console.log(car)
+      this.toster.success(`Car deleted sucesfully`);
+      this.clearForm();
+      this.router.navigate(['/car/new'])
+    }, err => console.log(err))
+  }
+
+  submitForm() {
     let { Features } = this.form.value
     let car = {
       ...this.form.value,
       Features: Array.from(Features)
     }
+
     let action = this.id ? this.CarsSv.updateCar(car, this.id) : this.CarsSv.createCar(car)
     action.subscribe((car: any) => {
       this.toster.success(`Car with ID: ${car.id} ${this.id ? "updated" : "created"} succesfully`)
-      this.form.reset()
-      this.form.patchValue({
-        Features: new Set(),
-      })
-      this.selectMake('')
+      this.clearForm()
     })
-
   }
+
+
+  private clearForm() {
+    this.form.reset();
+    this.form.patchValue({
+      Features: new Set(),
+    })
+    this.selectMake(null);
+  }
+
 
 
 

@@ -16,6 +16,7 @@ namespace vcar.Controllers.Resources
         public int Year { get; set; }
         public bool Registered { get; set; }
         public ICollection<FeatureResource> Features { get; set; }
+        public DateTime lasUpdate { get; set; }
 
         CarResource()
         {

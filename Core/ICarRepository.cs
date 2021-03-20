@@ -8,7 +8,7 @@ namespace vcar.Core
 {
     public interface ICarRepository
     {
-        Task<List<Car>> GetAll(bool loadExternal = false);
+        Task<List<Car>> GetAll(Filter filter, bool loadExternal = false);
         Task<Car> Get(int id, bool loadExternal = false);
         void Add(Car Car);
         void Remove(Car car);

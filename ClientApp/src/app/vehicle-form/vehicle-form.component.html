@@ -1,8 +1,10 @@
-<form [formGroup]="form" (ngSubmit)='submitForm()'>
+<form [formGroup]="form" (ngSubmit)='submitForm()' novalidate>
   <div formGroupName="Contact">
     <div class="form-group">
       <h5 for="contactName">Contact Name</h5>
       <input formControlName='Name' type="text" class="form-control" id="contactName" placeholder="Name">
+      <div class="alert alert-danger"
+           *ngIf='Contact.controls.Name.touched &&  Contact.controls.Name.invalid'>Please specify name</div>
     </div>
     <div class="form-group">
       <h5 for="email">Email address</h5>
@@ -10,6 +12,8 @@
              formControlName='Email'
              type="email" class="form-control" id="email" aria-describedby="emailHelp"
              placeholder="Enter email">
+      <div class="alert alert-danger"
+           *ngIf='Contact.controls.Email.touched &&  Contact.controls.Email.invalid'>Please specify email</div>
     </div>
 
   </div>
@@ -17,7 +21,9 @@
     <h5 for="exampleFormControlInput1">Year</h5>
     <input
            formControlName='Year'
-           type="number" class="form-control" id="exampleFormControlInput1">
+           type="number" class="form-control" id="Year">
+    <div class="alert alert-danger"
+         *ngIf='form.controls.Year.touched &&  form.controls.Year.invalid'>Please specify year</div>
   </div>
 
   <div class="form-group">
@@ -30,7 +36,11 @@
       <option value=''></option>
       <option *ngFor='let make of makes' value="{{make.id}}">{{make.name}}</option>
     </select>
+
+    <div class="alert alert-danger"
+         *ngIf='form.controls.Make.touched && form.controls.Make.invalid'>Please specify make</div>
   </div>
+
 
 
   <div class="form-group" *ngIf="avalibleModels">
@@ -57,6 +67,10 @@
       <label class="form-check-label" for="inlineRadio2">No</label>
     </div>
   </div>
+  <div class="alert alert-danger"
+       *ngIf='form.controls.registered.touched &&  form.controls.registered.invalid'>Please specify if car is registered
+  </div>
+
 
   <br>
   <h5>Features</h5>
@@ -76,5 +90,6 @@
   </div>
 
   <br>
-  <button type="submit" [disabled]="!form.valid" class="btn btn-primary btn-block">Submit</button>
+  <button type="submit" [disabled]="!form.valid" class="btn btn-primary">Submit</button>
+  <button type="button" (click)='delete()' *ngIf='id' class="btn btn-danger delete">Delete</button>
 </form>

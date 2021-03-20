@@ -14,6 +14,7 @@ namespace vcar.Mapping
         {
             CreateMap<Model, ModelResource>();
             CreateMap<Make, MakeResource>();
+            CreateMap<FilterResource, Filter>();
             CreateMap<Car, SaveCarResource>()
             .ForPath(cr => cr.Contact.Name, opt => opt.MapFrom(c => c.ContactName))
             .ForPath(cr => cr.Contact.Email, opt => opt.MapFrom(c => c.Email))

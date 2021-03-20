@@ -1,0 +1,102 @@
+<form class="card" [formGroup]="filter">
+  <div class="form-group">
+    <div class="filter-row">
+
+      <div class="make">
+        <label for="makeFilter">Make</label>
+        <select formControlName="makeId"
+                class="form-control" id="makeFilter">
+          <option></option>
+          <option *ngFor="let make of makes" [value]="make.id">{{make.name}}</option>
+        </select>
+      </div>
+
+      <div class="model" *ngIf="models">
+        <label for="modelFilter">Model</label>
+        <select formControlName="modelId" class="form-control" id="modelFilter">
+          <option></option>
+          <option *ngFor="let model of models" [value]="model.id">{{model.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <div class="form-group">
+        <label>Min year</label>
+        <input formControlName="yearmin" class="form-control form-control-sm" type="number">
+      </div>
+      <div class="form-group">
+        <label>Max year</label>
+        <input formControlName="yearmax" class="form-control form-control-sm" type="number">
+      </div>
+    </div>
+
+  </div>
+</form>
+
+<table class="table table-striped ">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th (click)="sort('Name')" scope="col">Name
+        <i class="demo-icon"
+           [class.icon-sort]="!sorter.Name"
+           [class.icon-down-micro]="sorter.Name==1"
+           [class.icon-up-micro]="sorter.Name==2"></i>
+        <!-- <i class="demo-icon icon-up-micro"></i> -->
+      </th>
+      <th (click)="sort('Email')" scope="col">Email
+        <i class="demo-icon"
+           [class.icon-sort]="!sorter.Email"
+           [class.icon-down-micro]="sorter.Email==1"
+           [class.icon-up-micro]="sorter.Email==2"></i>
+        <!-- <i class="demo-icon icon-up-micro"></i> -->
+
+      </th>
+      <th (click)="sort('Make')" scope="col">Make
+        <i class="demo-icon"
+           [class.icon-sort]="!sorter.Make"
+           [class.icon-down-micro]="sorter.Make==1"
+           [class.icon-up-micro]="sorter.Make==2"></i>
+        <!-- <i class="demo-icon icon-up-micro"></i> -->
+
+      </th>
+      <th (click)="sort('Model')" scope="col">Model
+        <i class="demo-icon"
+           [class.icon-sort]="!sorter.Model"
+           [class.icon-down-micro]="sorter.Model==1"
+           [class.icon-up-micro]="sorter.Model==2"></i>
+        <!-- <i class="demo-icon icon-up-micro"></i> -->
+
+      </th>
+      <th (click)="sort('Year')" scope="col">Year
+        <i class="demo-icon"
+           [class.icon-sort]="!sorter.Year"
+           [class.icon-down-micro]="sorter.Year==1"
+           [class.icon-up-micro]="sorter.Year==2"></i>
+        <!-- <i class="demo-icon icon-up-micro"></i> -->
+
+      </th>
+      <th (click)="sort('Registered')" scope="col">Registered
+        <i class="demo-icon"
+           [class.icon-sort]="!sorter.Registered"
+           [class.icon-down-micro]="sorter.Registered==1"
+           [class.icon-up-micro]="sorter.Registered==2"></i>
+        <!-- <i class="demo-icon icon-up-micro"></i> -->
+
+      </th>
+    </tr>
+  </thead>
+  <tbody *ngIf="cars$ | async as cars">
+    <tr *ngFor="let car of cars">
+      <td scope="col">{{car.id}}</td>
+      <td scope="col">{{car.contact.name}}</td>
+      <td scope="col">{{car.contact.email}}</td>
+      <td scope="col">{{car.make.name}}</td>
+      <td scope="col">{{car.model.name}}</td>
+      <td scope="col">{{car.year}}</td>
+      <td scope="col">{{car.registered ? "yes" : "no"}}</td>
+    </tr>
+
+  </tbody>
+</table>

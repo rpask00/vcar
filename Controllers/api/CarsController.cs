@@ -28,14 +28,14 @@ namespace vcar.Controllers.api
             _UnitOfWork = UnitOfWork;
         }
 
-
         [HttpGet]
-        public async Task<IActionResult> GetCars()
+        public async Task<IActionResult> GetCars(FilterResource filterResource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var cars = await _CarRepository.GetAll(loadExternal: true);
+            var filter = _mapper.Map<FilterResource, Filter>(filterResource);
+            var cars = await _CarRepository.GetAll(filter, loadExternal: true);
 
             if (cars == null)
                 return NotFound();
@@ -62,10 +62,12 @@ namespace vcar.Controllers.api
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SaveCarResource scr)
         {
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var car = _mapper.Map<SaveCarResource, Car>(scr);
+            car.lasUpdate = DateTime.Now;
 
             _CarRepository.Add(car);
             await _UnitOfWork.Complete();
@@ -82,6 +84,7 @@ namespace vcar.Controllers.api
 
             var car = await _CarRepository.Get(id, loadExternal: true);
             _mapper.Map<SaveCarResource, Car>(carResource, car);
+            car.lasUpdate = DateTime.Now;
 
             await _UnitOfWork.Complete();
             car = await _CarRepository.Get(car.Id, loadExternal: true);
@@ -106,5 +109,8 @@ namespace vcar.Controllers.api
 
             return Ok(car);
         }
+
+
+
     }
 }

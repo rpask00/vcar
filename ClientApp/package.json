@@ -22,6 +22,8 @@
     "@angular/platform-server": "8.2.12",
     "@angular/router": "8.2.12",
     "@nguniversal/module-map-ngfactory-loader": "8.1.1",
+    "@sentry/angular": "^6.2.2",
+    "@sentry/tracing": "^6.2.2",
     "bootstrap": "^4.6.0",
     "core-js": "^3.3.3",
     "jquery": "^3.5.1",
