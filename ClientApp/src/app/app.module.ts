@@ -6,7 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
+import { CarFormComponent } from './manage-car/car-form/car-form.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppErrorHandler } from './error-handler';
@@ -14,6 +14,9 @@ import * as Sentry from "@sentry/angular";
 import { Integrations } from '@sentry/tracing';
 import { CarsListComponent } from './cars-list/cars-list.component';
 import { PaginationComponent } from './shared/pagination/pagination.component';
+import { ManageCarComponent } from './manage-car/manage-car.component';
+import { CarPhotosComponent } from './manage-car/car-photos/car-photos.component';
+import { CarInfoComponent } from './manage-car/car-info/car-info.component';
 
 Sentry.init({
   dsn: "https://cd633243834a4e76a21293528bf8b490@o554899.ingest.sentry.io/5684079",
@@ -32,9 +35,12 @@ Sentry.init({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    VehicleFormComponent,
+    CarFormComponent,
     CarsListComponent,
     PaginationComponent,
+    ManageCarComponent,
+    CarPhotosComponent,
+    CarInfoComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -45,9 +51,10 @@ Sentry.init({
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'cars', pathMatch: 'full' },
-      { path: 'car/new', component: VehicleFormComponent, pathMatch: 'full' },
       { path: 'cars', component: CarsListComponent, pathMatch: 'full' },
-      { path: 'car/:id', component: VehicleFormComponent, pathMatch: 'full' },
+      { path: 'car/new', component: CarFormComponent, pathMatch: 'full' },
+      { path: 'car/:id', component: ManageCarComponent, pathMatch: 'full' },
+      { path: 'car/edit/:id', component: CarFormComponent, pathMatch: 'full' },
     ])
   ],
   providers: [

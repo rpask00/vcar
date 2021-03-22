@@ -19,14 +19,17 @@ export class PaginationComponent implements OnChanges {
 
   ngOnChanges(e) {
     this.pages = []
+    this.changePage(1);
 
     for (let i = 1; i <= Math.ceil(this.totalPages / this.itemsPerPage); i++)
       this.pages.push(i)
   }
 
   changePage(page: number) {
-    this.active = page;
-    this.onPageChange.emit(page);
+    if (this.active != page) {
+      this.active = page;
+      this.onPageChange.emit(page);
+    }
   }
 
 }

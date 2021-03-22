@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { CarsService } from './../services/cars.service';
+import { CarsService } from '../../services/cars.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, pipe } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -8,10 +8,10 @@ import { ActivatedRoute, Route, Router, RouteReuseStrategy } from '@angular/rout
 
 @Component({
   selector: 'app-vehicle-form',
-  templateUrl: './vehicle-form.component.html',
-  styleUrls: ['./vehicle-form.component.scss']
+  templateUrl: './car-form.component.html',
+  styleUrls: ['./car-form.component.scss']
 })
-export class VehicleFormComponent implements OnInit {
+export class CarFormComponent implements OnInit {
 
   makes$: Observable<any>
   features$: Observable<any>
@@ -92,14 +92,6 @@ export class VehicleFormComponent implements OnInit {
       this.form.value.Features.delete(id);
   }
 
-
-  delete() {
-    this.CarsSv.deleteCar(this.id).subscribe((car) => {
-      this.toster.success(`Car deleted sucesfully`);
-      this.clearForm();
-      this.router.navigate(['/car/new'])
-    }, err => console.log(err))
-  }
 
   submitForm() {
     let { Features } = this.form.value
