@@ -1,4 +1,4 @@
-<form class="card" [formGroup]="filter">
+<form class="card" [formGroup]="carQuery">
   <div class="form-group">
     <div class="filter-row">
 
@@ -38,57 +38,20 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th (click)="sort('Name')" scope="col">Name
-        <i class="demo-icon"
-           [class.icon-sort]="!sorter.Name"
-           [class.icon-down-micro]="sorter.Name==1"
-           [class.icon-up-micro]="sorter.Name==2"></i>
-        <!-- <i class="demo-icon icon-up-micro"></i> -->
+      <th *ngFor="let column of columns" scope="col">
+        <span *ngIf="column.isSortable" (click)="sort(column.name)">
+          {{column.name}}
+          <i class="demo-icon"
+             [class.icon-down-micro]="carQuery.value.sortBy == column.name && carQuery.value.sortAsc"
+             [class.icon-up-micro]="carQuery.value.sortBy == column.name && !carQuery.value.sortAsc"></i>
+        </span>
+        <span *ngIf="!column.isSortable">{{column.name}}</span>
       </th>
-      <th (click)="sort('Email')" scope="col">Email
-        <i class="demo-icon"
-           [class.icon-sort]="!sorter.Email"
-           [class.icon-down-micro]="sorter.Email==1"
-           [class.icon-up-micro]="sorter.Email==2"></i>
-        <!-- <i class="demo-icon icon-up-micro"></i> -->
-
-      </th>
-      <th (click)="sort('Make')" scope="col">Make
-        <i class="demo-icon"
-           [class.icon-sort]="!sorter.Make"
-           [class.icon-down-micro]="sorter.Make==1"
-           [class.icon-up-micro]="sorter.Make==2"></i>
-        <!-- <i class="demo-icon icon-up-micro"></i> -->
-
-      </th>
-      <th (click)="sort('Model')" scope="col">Model
-        <i class="demo-icon"
-           [class.icon-sort]="!sorter.Model"
-           [class.icon-down-micro]="sorter.Model==1"
-           [class.icon-up-micro]="sorter.Model==2"></i>
-        <!-- <i class="demo-icon icon-up-micro"></i> -->
-
-      </th>
-      <th (click)="sort('Year')" scope="col">Year
-        <i class="demo-icon"
-           [class.icon-sort]="!sorter.Year"
-           [class.icon-down-micro]="sorter.Year==1"
-           [class.icon-up-micro]="sorter.Year==2"></i>
-        <!-- <i class="demo-icon icon-up-micro"></i> -->
-
-      </th>
-      <th (click)="sort('Registered')" scope="col">Registered
-        <i class="demo-icon"
-           [class.icon-sort]="!sorter.Registered"
-           [class.icon-down-micro]="sorter.Registered==1"
-           [class.icon-up-micro]="sorter.Registered==2"></i>
-        <!-- <i class="demo-icon icon-up-micro"></i> -->
-
-      </th>
+      <th scope="col"></th>
     </tr>
   </thead>
-  <tbody *ngIf="cars$ | async as cars">
-    <tr *ngFor="let car of cars">
+  <tbody>
+    <tr *ngFor="let car of queryResult.items">
       <td scope="col">{{car.id}}</td>
       <td scope="col">{{car.contact.name}}</td>
       <td scope="col">{{car.contact.email}}</td>
@@ -96,7 +59,15 @@
       <td scope="col">{{car.model.name}}</td>
       <td scope="col">{{car.year}}</td>
       <td scope="col">{{car.registered ? "yes" : "no"}}</td>
+      <td scope="col">
+        <a class="btn" [routerLink]="['/car',car.id]"> Edit</a>
+      </td>
     </tr>
 
   </tbody>
 </table>
+<app-pagination
+                [itemsPerPage]="carQuery.value.PageSize"
+                [totalPages]="queryResult.size"
+                (onPageChange)="changePage($event)">
+</app-pagination>

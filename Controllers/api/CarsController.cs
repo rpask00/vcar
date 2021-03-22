@@ -29,19 +29,12 @@ namespace vcar.Controllers.api
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCars(FilterResource filterResource)
+        public async Task<QueryResultResource<CarResource>> GetCars(CarQueryResource carQueryResource)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var carQuery = _mapper.Map<CarQueryResource, CarQuery>(carQueryResource);
+            var queryResult = await _CarRepository.GetAll(carQuery, loadExternal: true);
 
-            var filter = _mapper.Map<FilterResource, Filter>(filterResource);
-            var cars = await _CarRepository.GetAll(filter, loadExternal: true);
-
-            if (cars == null)
-                return NotFound();
-
-            var carsResource = cars.Select(c => _mapper.Map<Car, CarResource>(c));
-            return Ok(carsResource);
+            return _mapper.Map<QueryResult<Car>, QueryResultResource<CarResource>>(queryResult);
         }
 
 

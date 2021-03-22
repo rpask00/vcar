@@ -1,3 +1,8 @@
+export interface QueryResult {
+    size: number,
+    items: Car[]
+}
+
 export interface Car {
     id: number,
     contact: Contact

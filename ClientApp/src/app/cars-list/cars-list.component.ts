@@ -1,121 +1,88 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Car, Make, Model } from './../interfaces/car';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { Car, Make, Model, QueryResult } from './../interfaces/car';
 import { CarsService } from './../services/cars.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { map, switchMap } from 'rxjs/operators';
+import { map, pairwise, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cars-list',
   templateUrl: './cars-list.component.html',
   styleUrls: ['./cars-list.component.scss']
 })
-export class CarsListComponent implements OnInit {
+export class CarsListComponent implements OnInit, OnDestroy {
 
-  cars$: Observable<Car[]>
-  makes$: Observable<Make[]>
+  queryResult: QueryResult = { items: [], size: 0 }
+  carsSub: Subscription;
+  Subscriptions: Subscription[] = [];
   makes: Make[]
-  models$: Observable<Model[]>
   models: Model[]
-  filter: FormGroup
-  sorter = {
-    Name: 0,
-    Email: 0,
-    Make: 0,
-    Model: 0,
-    Year: 0,
-    Registered: 0,
-  }
+  carQuery: FormGroup
+  counter: number = 0;
+  columns = [
+    { name: "Name", isSortable: true },
+    { name: "Email", isSortable: true },
+    { name: "Make", isSortable: true },
+    { name: "Model", isSortable: true },
+    { name: "Year", isSortable: true },
+    { name: "Registered", isSortable: false },
+  ]
 
   constructor(
     private CarSv: CarsService,
     private fb: FormBuilder
   ) {
-    this.filter = fb.group({
+    this.carQuery = fb.group({
       modelId: [''],
       makeId: [''],
       yearmin: [''],
       yearmax: [''],
-      // features: [[]],
+      Page: [1],
+      PageSize: [10],
+      sortBy: [''],
+      sortAsc: [null],
     })
   }
 
   ngOnInit() {
-    this.cars$ = this.CarSv.getCars(this.filter.value);
-    this.makes$ = this.CarSv.makes();
-    this.CarSv.makes().subscribe(makes => {
-      this.makes = makes
-    })
+    this.populateCars()
+    let sub = this.CarSv.makes().subscribe(makes => this.makes = makes)
+    this.Subscriptions.push(sub);
 
-    this.filter.controls.makeId.valueChanges.subscribe(makeId => {
-      this.filter.controls.modelId.setValue('')
+    sub = this.carQuery.controls.makeId.valueChanges.subscribe(makeId => {
+      this.carQuery.controls.modelId.setValue('')
       this.models = makeId ? this.models = this.makes.find(m => m.id == makeId).models : null;
     })
+    this.Subscriptions.push(sub);
 
-    this.filter.valueChanges.subscribe(filter => {
-      this.cars$ = this.CarSv.getCars(this.filter.value)
+    sub = this.carQuery.valueChanges.pipe(pairwise()).subscribe(([prev, next]) => {
+      if (prev.Page > 1 && prev.Page == next.Page)
+        this.carQuery.patchValue({ Page: 1 })
+
+      this.populateCars()
     })
+  }
+
+  populateCars() {
+    this.CarSv.getCars(this.carQuery.value).subscribe(result => this.queryResult = result)
   }
 
   sort(type: string) {
-    for (let s in this.sorter) {
-      if (s == type)
-        this.sorter[s] = ((this.sorter[s]) % 2) + 1
-      else
-        this.sorter[s] = 0
-    }
-
-
-    this.cars$ = this.CarSv.getCars().pipe(map(cars => {
-      let { Name, Email, Make, Model, Year, Registered } = this.sorter
-
-      if (this.filter.value.makeId)
-        cars = cars.filter(car => car.make.id == this.filter.value.makeId)
-
-      if (this.filter.value.modelId)
-        cars = cars.filter(car => car.model.id == this.filter.value.modelId)
-
-      if (this.filter.value.yearmax)
-        cars = cars.filter(car => car.year <= this.filter.value.yearmax)
-
-      if (this.filter.value.yearmin)
-        cars = cars.filter(car => car.year >= this.filter.value.yearmin)
-
-      if (Name)
-        return cars.sort((a, b) => this._sort(a.contact.name, b.contact.name, Name))
-      if (Email)
-        return cars.sort((a, b) => this._sort(a.contact.email, b.contact.email, Email))
-
-      if (Make)
-        return cars.sort((a, b) => this._sort(a.make.name, b.make.name, Make))
-
-      if (Model)
-        return cars.sort((a, b) => this._sort(a.model.name, b.model.name, Model))
-
-      if (Year)
-        return cars.sort((a, b) => this._sort(a.year, b.year, Year))
-
-      return cars
-    }))
-
-
+    this.carQuery.patchValue({
+      sortBy: type,
+      sortAsc: !this.carQuery.value.sortAsc,
+    })
   }
 
-  private _sort(a, b, type) {
-    if (typeof (a) == "number" && typeof (b) == "number")
-      return this._s(a, b, type)
-
-    a = (a + '').toLowerCase()
-    b = (b + '').toLowerCase()
-    return this._s(a, b, type)
-
-
+  ngOnDestroy(): void {
+    this.Subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  private _s(a, b, type) {
-    if (a == b) return 0
-    let r = a < b ? 1 : -1;
-    return type == 1 ? -r : r;
+  changePage(Page: number) {
+    this.carQuery.patchValue({ Page })
+
+    this.populateCars();
   }
+
 }
 

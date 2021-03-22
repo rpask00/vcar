@@ -12,9 +12,11 @@ namespace vcar.Mapping
     {
         public MappingProfile()
         {
+            CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
+
             CreateMap<Model, ModelResource>();
             CreateMap<Make, MakeResource>();
-            CreateMap<FilterResource, Filter>();
+            CreateMap<CarQueryResource, CarQuery>();
             CreateMap<Car, SaveCarResource>()
             .ForPath(cr => cr.Contact.Name, opt => opt.MapFrom(c => c.ContactName))
             .ForPath(cr => cr.Contact.Email, opt => opt.MapFrom(c => c.Email))

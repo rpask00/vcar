@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Car, Model, Make } from './../interfaces/car';
+import { Car, Model, Make, QueryResult } from './../interfaces/car';
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +36,8 @@ export class CarsService {
     return this.http.get('/api/cars/' + id) as Observable<Car>
   }
 
-  getCars(filter?): Observable<Car[]> {
-    return this.http.get('/api/cars?' + this._toQueryString(filter)) as Observable<Car[]>
+  getCars(query?): Observable<QueryResult> {
+    return this.http.get('/api/cars?' + this._toQueryString(query)) as Observable<QueryResult>
   }
 
   private _toQueryString(obj): string {
@@ -45,7 +45,7 @@ export class CarsService {
 
     for (let key in obj) {
       let value = obj[key]
-      if (value != null && value != undefined && value != '' && value != [])
+      if (value !== null && value !== undefined && value !== '' && value !== [])
         q.push(encodeURIComponent(key) + "=" + encodeURIComponent(value))
     }
 

@@ -95,7 +95,6 @@ export class VehicleFormComponent implements OnInit {
 
   delete() {
     this.CarsSv.deleteCar(this.id).subscribe((car) => {
-      console.log(car)
       this.toster.success(`Car deleted sucesfully`);
       this.clearForm();
       this.router.navigate(['/car/new'])

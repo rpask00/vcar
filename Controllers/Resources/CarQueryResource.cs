@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using vcar.Extensions;
 
-
-namespace vcar.Core.Models
+namespace vcar.Controllers.Resources
 {
-    public class Filter
+    public class CarQueryResource : IQueryObj
     {
         public int? ModelId { get; set; }
         public int? MakeId { get; set; }
         public int? yearmax { get; set; }
         public int? yearmin { get; set; }
-        public ICollection<int> Features { get; set; }
+        public string sortBy { get; set; }
+        public bool sortAsc { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
     }
 }
