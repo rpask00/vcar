@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Car } from 'src/app/interfaces/car';
 import { CarsService } from './../../services/cars.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
@@ -10,10 +10,11 @@ import { Router } from '@angular/router';
   templateUrl: './car-info.component.html',
   styleUrls: ['./car-info.component.scss']
 })
-export class CarInfoComponent implements OnInit {
+export class CarInfoComponent implements OnInit, OnDestroy {
 
   @Input('id') id: number
-  car$: Observable<Car>
+  car: Car
+  carSub: Subscription
 
   constructor(
     private carsSv: CarsService,
@@ -22,7 +23,8 @@ export class CarInfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.car$ = this.carsSv.getCar(this.id)
+    this.carSub = this.carsSv.getCar(this.id)
+      .subscribe(car => this.car = car, err => this.router.navigate(["/cars"]))
   }
 
 
@@ -31,6 +33,10 @@ export class CarInfoComponent implements OnInit {
       this.toster.success(`Car deleted sucesfully`);
       this.router.navigate(['/cars'])
     }, err => console.log(err))
+  }
+
+  ngOnDestroy() {
+    this.carSub.unsubscribe();
   }
 
 }

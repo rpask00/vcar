@@ -22,7 +22,9 @@ export class ManageCarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.id = this.route.snapshot.params['id']
+    this.id = +this.route.snapshot.params['id']
+    if (!(this.id > 0))
+      this.router.navigate(['/cars'])
   }
 
   changeView(view: number) {

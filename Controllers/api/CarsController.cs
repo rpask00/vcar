@@ -29,12 +29,12 @@ namespace vcar.Controllers.api
         }
 
         [HttpGet]
-        public async Task<QueryResultResource<CarResource>> GetCars(CarQueryResource carQueryResource)
+        public async Task<IActionResult> GetCars(CarQueryResource carQueryResource)
         {
             var carQuery = _mapper.Map<CarQueryResource, CarQuery>(carQueryResource);
             var queryResult = await _CarRepository.GetAll(carQuery, loadExternal: true);
 
-            return _mapper.Map<QueryResult<Car>, QueryResultResource<CarResource>>(queryResult);
+            return Ok(_mapper.Map<QueryResult<Car>, QueryResultResource<CarResource>>(queryResult));
         }
 
 

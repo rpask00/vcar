@@ -20,11 +20,13 @@ namespace vcar.Core.Models
         public bool registered { get; set; }
         public ICollection<CarFeature> Features { get; set; }
         public DateTime lasUpdate { get; set; }
+        public ICollection<Photo> Photos { get; set; }
 
 
         Car()
         {
             Features = new List<CarFeature>();
+            Photos = new List<Photo>();
         }
 
 

@@ -101,7 +101,7 @@ export class CarFormComponent implements OnInit {
     }
 
     let action = this.id ? this.CarsSv.updateCar(car, this.id) : this.CarsSv.createCar(car)
-    action.subscribe((car: any) => {
+    action.pipe(take(1)).subscribe((car: any) => {
       this.toster.success(`Car with ID: ${car.id} ${this.id ? "updated" : "created"} succesfully`)
       this.clearForm()
     })
