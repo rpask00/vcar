@@ -10,6 +10,7 @@ namespace vcar.Core
     public interface IPhotoRepository
     {
         Task<ICollection<Photo>> GetPhotos(int carId);
+        void RemovePhoto(Photo photo);
     }
 
 }

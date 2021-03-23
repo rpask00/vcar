@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class PhotosService {
 
   constructor(
@@ -15,7 +16,10 @@ export class PhotosService {
     let formData = new FormData()
     formData.append('file', photo);
 
-    return this.http.post(`api/cars/${carId}/photos`, formData);
+    return this.http.post(`api/cars/${carId}/photos`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
 
   }
 

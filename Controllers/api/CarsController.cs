@@ -20,12 +20,14 @@ namespace vcar.Controllers.api
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _UnitOfWork;
         private readonly ICarRepository _CarRepository;
+        private readonly IPhotoRepository _PhotoRepository;
 
-        public CarsController(IMapper mapper, ICarRepository CarRepository, IUnitOfWork UnitOfWork)
+        public CarsController(IMapper mapper, ICarRepository CarRepository, IUnitOfWork UnitOfWork, IPhotoRepository PhotoRepository)
         {
             _mapper = mapper;
             _CarRepository = CarRepository;
             _UnitOfWork = UnitOfWork;
+            _PhotoRepository = PhotoRepository;
         }
 
         [HttpGet]
@@ -96,6 +98,9 @@ namespace vcar.Controllers.api
 
             if (car == null)
                 return NotFound();
+
+            foreach (var photo in await _PhotoRepository.GetPhotos(car.Id))
+                _PhotoRepository.RemovePhoto(photo);
 
             _CarRepository.Remove(car);
             await _UnitOfWork.Complete();

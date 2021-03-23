@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { Car, Make, Model, QueryResult } from './../interfaces/car';
+import { Subscription } from 'rxjs';
+import { Make, Model, QueryResult } from './../interfaces/car';
 import { CarsService } from './../services/cars.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { map, pairwise, switchMap } from 'rxjs/operators';
+import { pairwise, } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cars-list',
@@ -14,7 +14,7 @@ export class CarsListComponent implements OnInit, OnDestroy {
 
   queryResult: QueryResult = { items: [], size: 0 }
   carsSub: Subscription;
-  Subscriptions: Subscription[] = [];
+  subs: Subscription[] = [];
   makes: Make[]
   models: Model[]
   carQuery: FormGroup
@@ -46,21 +46,21 @@ export class CarsListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.populateCars()
-    let sub = this.CarSv.makes().subscribe(makes => this.makes = makes)
-    this.Subscriptions.push(sub);
 
-    sub = this.carQuery.controls.makeId.valueChanges.subscribe(makeId => {
+    this.subs.push(this.CarSv.makes().subscribe(makes => this.makes = makes))
+
+    this.subs.push(this.carQuery.controls.makeId.valueChanges.subscribe(makeId => {
       this.carQuery.controls.modelId.setValue('')
       this.models = makeId ? this.models = this.makes.find(m => m.id == makeId).models : null;
-    })
-    this.Subscriptions.push(sub);
+    }))
 
-    sub = this.carQuery.valueChanges.pipe(pairwise()).subscribe(([prev, next]) => {
+    this.subs.push(this.carQuery.valueChanges.pipe(pairwise()).subscribe(([prev, next]) => {
       if (prev.Page > 1 && prev.Page == next.Page)
         this.carQuery.patchValue({ Page: 1 })
 
       this.populateCars()
-    })
+    }))
+
   }
 
   populateCars() {
@@ -75,12 +75,11 @@ export class CarsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.Subscriptions.forEach(sub => sub.unsubscribe());
+    this.subs.forEach(sub => sub.unsubscribe());
   }
 
   changePage(Page: number) {
     this.carQuery.patchValue({ Page })
-
     this.populateCars();
   }
 

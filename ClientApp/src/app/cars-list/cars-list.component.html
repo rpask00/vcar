@@ -67,6 +67,7 @@
   </tbody>
 </table>
 <app-pagination
+                *ngIf="queryResult.size > carQuery.value.PageSize"
                 [itemsPerPage]="carQuery.value.PageSize"
                 [totalPages]="queryResult.size"
                 (onPageChange)="changePage($event)">

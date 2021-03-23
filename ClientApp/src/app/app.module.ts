@@ -59,16 +59,16 @@ Sentry.init({
   ],
   providers: [
     // { provide: ErrorHandler, useClass: AppErrorHandler },
-    {
-      provide: Sentry.TraceService,
-      deps: [Router],
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => { },
-      deps: [Sentry.TraceService],
-      multi: true,
-    },
+    // {
+    //   provide: Sentry.TraceService,
+    //   deps: [Router],
+    // },
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: () => () => { },
+    //   deps: [Sentry.TraceService],
+    //   multi: true,
+    // },
   ],
   bootstrap: [AppComponent]
 })

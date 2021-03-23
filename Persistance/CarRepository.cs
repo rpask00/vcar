@@ -66,7 +66,9 @@ namespace vcar.Persistance
                 query = query.ApplyOrdering(carQuery, SortingDict);
             }
             result.Size = query.Count();
+
             query = query.ApplyPaging(carQuery);
+
             result.Items = await query.ToListAsync();
 
             return result;

@@ -3,6 +3,7 @@ import { PhotosService } from './../../services/photos.service';
 import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-car-photos',
@@ -13,6 +14,8 @@ export class CarPhotosComponent implements OnInit {
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @Input('id') id: number
+
+  dowloadProgress: string
   photos$: Observable<any[]>
 
   constructor(
@@ -22,16 +25,26 @@ export class CarPhotosComponent implements OnInit {
 
   ngOnInit() {
     this.photos$ = this.photosSv.getPhotos(this.id);
-    this.photos$.subscribe(console.log)
   }
 
   uploadFile() {
     let file = this.fileInput.nativeElement.files[0];
-    this.photosSv.uploadFile(this.id, file).pipe(take(1))
-      .subscribe(photo => {
-        this.toster.success("Photo uploaded sucessfully!")
-        this.fileInput.nativeElement.value = '';
-        this.photos$ = this.photosSv.getPhotos(this.id);
+    if (!file) return
+
+    this.photosSv.uploadFile(this.id, file)
+      .subscribe((event: HttpEvent<any>) => {
+        switch (event.type) {
+          case HttpEventType.UploadProgress:
+            this.dowloadProgress = Math.ceil(event.loaded / event.total * 100) + "%"
+            break;
+
+          case HttpEventType.Response:
+            this.toster.success("Photo uploaded sucessfully!")
+            this.dowloadProgress = null;
+            this.fileInput.nativeElement.value = '';
+            this.photos$ = this.photosSv.getPhotos(this.id);
+            break;
+        }
       })
   }
 
