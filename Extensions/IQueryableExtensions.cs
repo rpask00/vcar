@@ -3,6 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using DataAnnotations;
+using vcar.Core.Models;
+using System.Collections.Generic;
+using vcar.Core;
+using System.Linq;
+using System;
+using System.Linq.Expressions;
+using vcar.Extensions;
 
 
 namespace vcar.Extensions
@@ -30,7 +40,6 @@ namespace vcar.Extensions
 
             return query.Skip((QueryObj.Page - 1) * QueryObj.PageSize).Take(QueryObj.PageSize);
         }
-
 
     }
 }

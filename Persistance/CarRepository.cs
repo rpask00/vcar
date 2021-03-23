@@ -9,6 +9,7 @@ using System;
 using System.Linq.Expressions;
 using vcar.Extensions;
 
+
 namespace vcar.Persistance
 {
     public class CarRepository : ICarRepository
@@ -52,6 +53,7 @@ namespace vcar.Persistance
                 query = query.Where(c => c.year >= carQuery.yearmin);
 
 
+
             if (!string.IsNullOrEmpty(carQuery.sortBy))
             {
                 var SortingDict = new Dictionary<string, Expression<Func<Car, object>>>
@@ -66,9 +68,7 @@ namespace vcar.Persistance
                 query = query.ApplyOrdering(carQuery, SortingDict);
             }
             result.Size = query.Count();
-
             query = query.ApplyPaging(carQuery);
-
             result.Items = await query.ToListAsync();
 
             return result;

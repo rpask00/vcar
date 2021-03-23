@@ -17,6 +17,7 @@ import { PaginationComponent } from './shared/pagination/pagination.component';
 import { ManageCarComponent } from './manage-car/manage-car.component';
 import { CarPhotosComponent } from './manage-car/car-photos/car-photos.component';
 import { CarInfoComponent } from './manage-car/car-info/car-info.component';
+import { AuthClientConfig, AuthModule, AuthService } from '@auth0/auth0-angular';
 
 Sentry.init({
   dsn: "https://cd633243834a4e76a21293528bf8b490@o554899.ingest.sentry.io/5684079",
@@ -46,6 +47,10 @@ Sentry.init({
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    AuthModule.forRoot({
+      domain: 'dev-w9jfcta5.eu.auth0.com',
+      clientId: 'mG6eG7HQ4N5fsVZQO79gokhpt5enxHgE'
+    }),
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     ReactiveFormsModule,
@@ -58,6 +63,8 @@ Sentry.init({
     ])
   ],
   providers: [
+    AuthClientConfig,
+    AuthService
     // { provide: ErrorHandler, useClass: AppErrorHandler },
     // {
     //   provide: Sentry.TraceService,

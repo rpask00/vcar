@@ -11,7 +11,7 @@ using AutoMapper;
 using vcar.Core;
 using vcar.Persistance;
 using vcar.Core.Models;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 namespace vcar
 {
     public class Startup
@@ -39,6 +39,16 @@ namespace vcar
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://dev-w9jfcta5.eu.auth0.com/";
+                options.Audience = "https://api.vcar.com";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,13 +67,16 @@ namespace vcar
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
             }
 
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

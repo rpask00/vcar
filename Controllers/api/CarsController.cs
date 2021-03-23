@@ -11,6 +11,7 @@ using vcar.Controllers.Resources;
 using vcar.Persistance;
 using vcar.Core.Models;
 using vcar.Core;
+using Microsoft.AspNetCore.Authorization;
 
 namespace vcar.Controllers.api
 {
@@ -31,6 +32,7 @@ namespace vcar.Controllers.api
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetCars(CarQueryResource carQueryResource)
         {
             var carQuery = _mapper.Map<CarQueryResource, CarQuery>(carQueryResource);
@@ -90,7 +92,6 @@ namespace vcar.Controllers.api
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCar(int id)
         {
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -107,8 +108,6 @@ namespace vcar.Controllers.api
 
             return Ok(car);
         }
-
-
 
     }
 }
