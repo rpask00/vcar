@@ -8,36 +8,41 @@ import { Car, Model, Make, QueryResult } from './../interfaces/car';
 })
 export class CarsService {
 
+  origin: string
+
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+    this.origin = window.location.origin
+  }
 
   models(): Observable<Model[]> {
-    return this.http.get('/api/models') as Observable<Model[]>;
+    return this.http.get(this.origin + '/api/models') as Observable<Model[]>;
   }
 
   makes(): Observable<Make[]> {
-    return this.http.get('/api/makes') as Observable<Make[]>;
+    return this.http.get(this.origin + '/api/makes') as Observable<Make[]>;
   }
 
   features(): Observable<any> {
-    return this.http.get('/api/features')
+    return this.http.get(this.origin + '/api/features')
   }
 
   createCar(car): Observable<any> {
-    return this.http.post('/api/cars', car);
+    return this.http.post(this.origin + '/api/cars', car);
   }
 
   updateCar(car, id): Observable<any> {
-    return this.http.put('/api/cars/' + id, car);
+    return this.http.put(this.origin + '/api/cars/' + id, car);
   }
 
   getCar(id: number): Observable<Car> {
-    return this.http.get('/api/cars/' + id) as Observable<Car>
+    return this.http.get(this.origin + '/api/cars/' + id) as Observable<Car>
   }
 
   getCars(query?): Observable<QueryResult> {
-    return this.http.get('/api/cars?' + this._toQueryString(query)) as Observable<QueryResult>
+    this._toQueryString(query)
+    return this.http.get(this.origin + '/api/cars?' + this._toQueryString(query)) as Observable<QueryResult>
   }
 
   private _toQueryString(obj): string {

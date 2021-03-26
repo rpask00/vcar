@@ -3,7 +3,7 @@ import { PhotosService } from './../../services/photos.service';
 import { take } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpEvent, HttpEventType, HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-car-photos',
@@ -20,10 +20,12 @@ export class CarPhotosComponent implements OnInit {
 
   constructor(
     private photosSv: PhotosService,
-    private toster: ToastrService
+    private toster: ToastrService,
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
+
     this.photos$ = this.photosSv.getPhotos(this.id);
   }
 

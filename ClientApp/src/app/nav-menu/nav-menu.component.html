@@ -13,16 +13,8 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="navbar-collapse collapse d-sm-inline-flex" [ngClass]="{ show: isExpanded }">
-        <ul class="navbar-nav flex-grow">
-          <li class="nav-item" (click)="auth.logout()" *ngIf="user$ | async as user;else notlogged">
-            <a class="nav-link ">Logout</a>
-          </li>
+        <ul class="navbar-nav mr-auto">
 
-          <ng-template #notlogged>
-            <li class="nav-item" (click)="auth.loginWithRedirect()">
-              <a class="nav-link ">Login</a>
-            </li>
-          </ng-template>
 
           <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
             <a class="nav-link " [routerLink]="['/']">
@@ -42,9 +34,23 @@
             </a>
           </li>
         </ul>
+
+
+
+        <div class="nav-link log" *ngIf="auth.user$ | async as user;else notlogged">
+          <span (click)="auth.logout()">
+            <i class="demo-icon icon-left"></i>Logout <span class="username">| {{user.name}}</span> </span>
+
+        </div>
+
+        <ng-template #notlogged>
+          <div class="nav-link log" (click)="auth.loginWithRedirect()">
+            <span>Login</span>
+          </div>
+        </ng-template>
+
       </div>
     </div>
 
-    <button (click)="click()">clikc</button>
   </nav>
 </header>

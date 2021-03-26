@@ -4,6 +4,7 @@ import { Make, Model, QueryResult } from './../interfaces/car';
 import { CarsService } from './../services/cars.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { pairwise, } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cars-list',
@@ -20,7 +21,7 @@ export class CarsListComponent implements OnInit, OnDestroy {
   carQuery: FormGroup
   counter: number = 0;
   columns = [
-    { name: "Name", isSortable: true },
+    { name: "Owner", isSortable: true },
     { name: "Email", isSortable: true },
     { name: "Make", isSortable: true },
     { name: "Model", isSortable: true },
@@ -30,7 +31,8 @@ export class CarsListComponent implements OnInit, OnDestroy {
 
   constructor(
     private CarSv: CarsService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private http: HttpClient
   ) {
     this.carQuery = fb.group({
       modelId: [''],
