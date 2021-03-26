@@ -11,7 +11,10 @@ using AutoMapper;
 using vcar.Core;
 using vcar.Persistance;
 using vcar.Core.Models;
+using System.Linq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
+
 namespace vcar
 {
     public class Startup
@@ -26,6 +29,9 @@ namespace vcar
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+
             // services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration["ConnectionStrings:Default"])); <------------to samo |
             services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration.GetConnectionString("Default")));                //    \/
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotosSettings"));
@@ -40,15 +46,29 @@ namespace vcar
                 configuration.RootPath = "ClientApp/dist";
             });
 
+
+            services.AddCors(options =>
+                  {
+                      options.AddDefaultPolicy(builder =>
+                                      {
+                                          builder.WithHeaders("authorization");
+                                          builder.AllowAnyMethod();
+                                          builder.AllowAnyOrigin();
+                                      });
+                  });
+
             services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.Authority = "https://dev-w9jfcta5.eu.auth0.com/";
-                options.Audience = "https://api.vcar.com";
-            });
+           {
+               options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+               options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+           }).AddJwtBearer(options =>
+           {
+               options.Authority = Configuration["AuthCredentials:Authority"];
+               options.Audience = Configuration["AuthCredentials:Audience"];
+           });
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,18 +85,37 @@ namespace vcar
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
 
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
             }
 
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+
             app.UseRouting();
+            app.UseCors();
+
+
+            app.Use((context, next) =>
+            {
+                if (context.Request.Headers.Any(k => k.Key.Contains("Origin")) && context.Request.Method == "OPTIONS")
+                {
+                    context.Response.StatusCode = 200;
+                    return context.Response.WriteAsync("handled");
+                }
+
+                return next.Invoke();
+            });
+
+
             app.UseAuthentication();
             app.UseAuthorization();
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -84,18 +123,20 @@ namespace vcar
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
+
             app.UseSpa(spa =>
-            {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
+                      {
+                          // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                          // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = "ClientApp";
+                          spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
-            });
+                          if (env.IsDevelopment())
+                          {
+                              spa.UseAngularCliServer(npmScript: "start");
+                          }
+                      });
+
         }
     }
 }

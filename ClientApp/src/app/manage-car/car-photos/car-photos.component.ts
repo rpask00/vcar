@@ -12,7 +12,7 @@ import { HttpEvent, HttpEventType } from '@angular/common/http';
 })
 export class CarPhotosComponent implements OnInit {
 
-  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+  @ViewChild('fileInput') fileInput: ElementRef;
   @Input('id') id: number
 
   dowloadProgress: string

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Net.Http.Headers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using vcar.Persistance;
 using vcar.Core.Models;
 using vcar.Core;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace vcar.Controllers.api
 {
