@@ -36,6 +36,7 @@ export class CarFormComponent implements OnInit {
     this.form = fb.group({
       Contact: this.Contact,
       Year: ['', [Validators.required]],
+      Price: ['', [Validators.required]],
       ModelId: ['', [Validators.required]],
       Make: ['', [Validators.required]],
       registered: [true, [Validators.required]],

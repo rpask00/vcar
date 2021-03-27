@@ -83,6 +83,11 @@ namespace vcar.Controllers.api
             var fileName = Guid.NewGuid().ToString() + Path.GetExtension(File.FileName);
             var filePath = Path.Combine(uploadsFolderPath, fileName);
 
+            Console.WriteLine(fileName);
+
+            if (string.IsNullOrEmpty(car.thumbnail))
+                car.thumbnail = fileName;
+
             // var stream = new FileStream(filePath, FileMode.Create);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {

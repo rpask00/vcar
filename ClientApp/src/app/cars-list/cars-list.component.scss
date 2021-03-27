@@ -19,6 +19,7 @@ table {
 }
 
 th {
+    text-align: center;
     cursor: pointer;
 }
 
@@ -26,3 +27,14 @@ th {
 a {
     text-decoration: none;
 }
+
+
+td {
+    text-align: center;
+
+    img {
+        max-width: 120px;
+        max-height: 70px;
+    }
+}
+

@@ -17,6 +17,7 @@ namespace vcar.Core.Models
         public bool sortAsc { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
-
+        public int? PriceMin { get; set; }
+        public int? PriceMax { get; set; }
     }
 }

@@ -22,11 +22,10 @@ export class CarsListComponent implements OnInit, OnDestroy {
   counter: number = 0;
   columns = [
     { name: "Owner", isSortable: true },
-    { name: "Email", isSortable: true },
+    { name: "Price", isSortable: true },
     { name: "Make", isSortable: true },
     { name: "Model", isSortable: true },
     { name: "Year", isSortable: true },
-    { name: "Registered", isSortable: false },
   ]
 
   constructor(
@@ -39,6 +38,8 @@ export class CarsListComponent implements OnInit, OnDestroy {
       makeId: [''],
       yearmin: [''],
       yearmax: [''],
+      pricemax: [''],
+      pricemin: [''],
       Page: [1],
       PageSize: [10],
       sortBy: [''],

@@ -22,7 +22,19 @@
 
     <div class="filter-row">
       <div class="form-group">
+        <label>Min Price</label>
+        <input formControlName="pricemin" class="form-control form-control-sm" type="number">
+      </div>
+      <div class="form-group">
+        <label>Max Price</label>
+        <input formControlName="pricemax" class="form-control form-control-sm" type="number">
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <div class="form-group">
         <label>Min year</label>
+
         <input formControlName="yearmin" class="form-control form-control-sm" type="number">
       </div>
       <div class="form-group">
@@ -31,13 +43,15 @@
       </div>
     </div>
 
+
+
   </div>
 </form>
 
 <table class="table table-striped ">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col"></th>
       <th *ngFor="let column of columns" scope="col">
         <span *ngIf="column.isSortable" (click)="sort(column.name)">
           {{column.name}}
@@ -52,14 +66,20 @@
   </thead>
   <tbody>
     <tr *ngFor="let car of queryResult.items">
-      <td scope="col">{{car.id}}</td>
-      <td scope="col">{{car.contact.name}}</td>
-      <td scope="col">{{car.contact.email}}</td>
-      <td scope="col">{{car.make.name}}</td>
-      <td scope="col">{{car.model.name}}</td>
-      <td scope="col">{{car.year}}</td>
-      <td scope="col">{{car.registered ? "yes" : "no"}}</td>
-      <td scope="col">
+      <td class="align-middle" scope="col">
+        <img *ngIf="car.thumbnail; else noimage" src="uploads/{{car.thumbnail}}" alt="">
+        <ng-template #noimage>
+          <img src="../../assets/noimage.png">
+        </ng-template>
+      </td>
+      <td class="align-middle" scope="col">{{car.contact.name}}</td>
+      <td class="align-middle" scope="col">{{car.price | currency}}</td>
+      <!-- <td class="align-middle" scope="col">{{car.contact.email}}</td> -->
+      <td class="align-middle" scope="col">{{car.make.name}}</td>
+      <td class="align-middle" scope="col">{{car.model.name}}</td>
+      <td class="align-middle" scope="col">{{car.year}}</td>
+      <!-- <td class="align-middle" scope="col">{{car.registered ? "yes" : "no"}}</td> -->
+      <td class="align-middle" scope="col">
         <a class="btn" [routerLink]="['/car',car.id]"> View</a>
       </td>
     </tr>

@@ -29,6 +29,7 @@ export class CarsService {
   }
 
   createCar(car): Observable<any> {
+    console.log(car)
     return this.http.post(this.origin + '/api/cars', car);
   }
 
@@ -41,7 +42,6 @@ export class CarsService {
   }
 
   getCars(query?): Observable<QueryResult> {
-    this._toQueryString(query)
     return this.http.get(this.origin + '/api/cars?' + this._toQueryString(query)) as Observable<QueryResult>
   }
 

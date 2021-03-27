@@ -5,9 +5,11 @@ export interface QueryResult {
 
 export interface Car {
     id: number,
+    price: number,
     contact: Contact
     year: number,
     model: Model,
+    thumbnail: string,
     make: Make,
     registered: boolean,
     features: Feature[]

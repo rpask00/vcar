@@ -52,6 +52,12 @@ namespace vcar.Persistance
             if (carQuery.yearmin.HasValue)
                 query = query.Where(c => c.year >= carQuery.yearmin);
 
+            if (carQuery.PriceMax.HasValue)
+                query = query.Where(c => c.Price <= carQuery.PriceMax);
+
+            if (carQuery.PriceMin.HasValue)
+                query = query.Where(c => c.Price >= carQuery.PriceMin);
+
 
 
             if (!string.IsNullOrEmpty(carQuery.sortBy))
@@ -59,6 +65,7 @@ namespace vcar.Persistance
                 var SortingDict = new Dictionary<string, Expression<Func<Car, object>>>
                 {
                     ["Name"] = c => c.ContactName,
+                    ["Price"] = c => c.Price,
                     ["Email"] = c => c.Email,
                     ["Make"] = c => c.Model.Make.Name,
                     ["Model"] = c => c.Model.Name,

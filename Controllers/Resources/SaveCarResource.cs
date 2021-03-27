@@ -15,6 +15,7 @@ namespace vcar.Controllers.Resources
         [Required]
         public int ModelId { get; set; }
         public int Year { get; set; }
+        public int Price { get; set; }
         public bool Registered { get; set; }
         public ICollection<int> Features { get; set; }
 

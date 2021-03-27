@@ -9,6 +9,7 @@ namespace vcar.Core.Models
         public int Id { get; set; }
         [Required]
         public int ModelId { get; set; }
+        public int Price { get; set; }
         public Model Model { get; set; }
         [Required]
         [StringLength(30)]
@@ -21,7 +22,7 @@ namespace vcar.Core.Models
         public ICollection<CarFeature> Features { get; set; }
         public DateTime lasUpdate { get; set; }
         public ICollection<Photo> Photos { get; set; }
-
+        public string thumbnail { get; set; }
 
         Car()
         {
