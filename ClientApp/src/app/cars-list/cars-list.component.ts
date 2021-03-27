@@ -16,8 +16,6 @@ export class CarsListComponent implements OnInit, OnDestroy {
   queryResult: QueryResult = { items: [], size: 0 }
   carsSub: Subscription;
   subs: Subscription[] = [];
-  makes: Make[]
-  models: Model[]
   carQuery: FormGroup
   counter: number = 0;
   columns = [
@@ -49,13 +47,6 @@ export class CarsListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.populateCars()
-
-    this.subs.push(this.CarSv.makes().subscribe(makes => this.makes = makes))
-
-    this.subs.push(this.carQuery.controls.makeId.valueChanges.subscribe(makeId => {
-      this.carQuery.controls.modelId.setValue('')
-      this.models = makeId ? this.models = this.makes.find(m => m.id == makeId).models : null;
-    }))
 
     this.subs.push(this.carQuery.valueChanges.pipe(pairwise()).subscribe(([prev, next]) => {
       if (prev.Page > 1 && prev.Page == next.Page)

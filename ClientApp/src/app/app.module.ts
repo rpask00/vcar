@@ -19,6 +19,8 @@ import { CarPhotosComponent } from './manage-car/car-photos/car-photos.component
 import { CarInfoComponent } from './manage-car/car-info/car-info.component';
 import { AuthClientConfig, AuthHttpInterceptor, AuthModule, AuthService } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
+import { CarsFilterComponent } from './cars-list/cars-filter/cars-filter.component';
+import { ListOfCarsComponent } from './shared/list-of-cars/list-of-cars.component';
 
 
 Sentry.init({
@@ -42,6 +44,8 @@ Sentry.init({
     ManageCarComponent,
     CarPhotosComponent,
     CarInfoComponent,
+    CarsFilterComponent,
+    ListOfCarsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
