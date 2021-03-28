@@ -1,14 +1,8 @@
-using vcar.Core.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using DataAnnotations;
-using vcar.Core;
-using vcar.Extensions;
-
+using vcar.Core.Models;
 
 namespace vcar.Extensions
 {
@@ -34,6 +28,32 @@ namespace vcar.Extensions
                 return query;
 
             return query.Skip((QueryObj.Page - 1) * QueryObj.PageSize).Take(QueryObj.PageSize);
+        }
+
+        public static IQueryable<Car> ApplyFiltering(this IQueryable<Car> query, CarQuery carQuery)
+        {
+            if (carQuery.MakeId.HasValue)
+                query = query.Where(c => c.Model.MakeId == carQuery.MakeId);
+
+            if (carQuery.ModelId.HasValue)
+                query = query.Where(c => c.Model.Id == carQuery.ModelId);
+
+            if (carQuery.yearmax.HasValue)
+                query = query.Where(c => c.year <= carQuery.yearmax);
+
+            if (carQuery.yearmin.HasValue)
+                query = query.Where(c => c.year >= carQuery.yearmin);
+
+            if (carQuery.PriceMax.HasValue)
+                query = query.Where(c => c.Price <= carQuery.PriceMax);
+
+            if (carQuery.PriceMin.HasValue)
+                query = query.Where(c => c.Price >= carQuery.PriceMin);
+
+            if (!string.IsNullOrEmpty(carQuery.Owner))
+                query = query.Where(c => c.Email == carQuery.Owner);
+
+            return query;
         }
 
     }

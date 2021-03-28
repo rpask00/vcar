@@ -40,28 +40,7 @@ namespace vcar.Persistance
                 .ThenInclude(f => f.Feature)
             .AsQueryable();
 
-            if (carQuery.MakeId.HasValue)
-                query = query.Where(c => c.Model.MakeId == carQuery.MakeId);
-
-            if (carQuery.ModelId.HasValue)
-                query = query.Where(c => c.Model.Id == carQuery.ModelId);
-
-            if (carQuery.yearmax.HasValue)
-                query = query.Where(c => c.year <= carQuery.yearmax);
-
-            if (carQuery.yearmin.HasValue)
-                query = query.Where(c => c.year >= carQuery.yearmin);
-
-            if (carQuery.PriceMax.HasValue)
-                query = query.Where(c => c.Price <= carQuery.PriceMax);
-
-            if (carQuery.PriceMin.HasValue)
-                query = query.Where(c => c.Price >= carQuery.PriceMin);
-
-            if (!string.IsNullOrEmpty(carQuery.Owner))
-                query = query.Where(c => c.Email == carQuery.Owner);
-
-
+            query = query.ApplyFiltering(carQuery);
 
             if (!string.IsNullOrEmpty(carQuery.sortBy))
             {
@@ -78,7 +57,9 @@ namespace vcar.Persistance
                 query = query.ApplyOrdering(carQuery, SortingDict);
             }
             result.Size = query.Count();
+            
             query = query.ApplyPaging(carQuery);
+            
             result.Items = await query.ToListAsync();
 
             return result;

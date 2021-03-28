@@ -47,9 +47,8 @@ export class CarFormComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.auth.user$.subscribe(user => {
+    this.auth.user$.pipe(take(1)).subscribe(user => {
       if (user) {
-        this.Contact.controls.Name.setd
         this.Contact.patchValue({
           Name: user.name,
           Email: user.email
