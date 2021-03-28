@@ -18,6 +18,7 @@ export class PaginationComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges(e) {
+    console.log("Change", e)
     this.pages = []
     this.changePage(1);
 
@@ -30,6 +31,7 @@ export class PaginationComponent implements OnChanges {
       this.active = page;
       this.onPageChange.emit(page);
     }
+
   }
 
 }

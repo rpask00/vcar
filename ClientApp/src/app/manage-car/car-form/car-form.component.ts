@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, pipe } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ActivatedRoute, Route, Router, RouteReuseStrategy } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -27,11 +28,12 @@ export class CarFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
+    public auth: AuthService
 
   ) {
     this.Contact = fb.group({
-      Name: ['', [Validators.required]],
-      Email: ['', [Validators.required]],
+      Name: [''],
+      Email: [''],
     })
     this.form = fb.group({
       Contact: this.Contact,
@@ -45,6 +47,16 @@ export class CarFormComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.auth.user$.subscribe(user => {
+      if (user) {
+        this.Contact.controls.Name.setd
+        this.Contact.patchValue({
+          Name: user.name,
+          Email: user.email
+        })
+      }
+    })
+
     this.makes$ = this.CarsSv.makes();
     this.features$ = this.CarsSv.features();
     this.id = this.route.snapshot.params['id']

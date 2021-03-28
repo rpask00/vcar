@@ -21,6 +21,8 @@ import { AuthClientConfig, AuthHttpInterceptor, AuthModule, AuthService } from '
 import { environment } from 'src/environments/environment';
 import { CarsFilterComponent } from './cars-list/cars-filter/cars-filter.component';
 import { ListOfCarsComponent } from './shared/list-of-cars/list-of-cars.component';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
+import { UserCarsComponent } from './user-cars/user-cars.component';
 
 
 Sentry.init({
@@ -46,6 +48,8 @@ Sentry.init({
     CarInfoComponent,
     CarsFilterComponent,
     ListOfCarsComponent,
+    NotFoundComponent,
+    UserCarsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -57,9 +61,11 @@ Sentry.init({
     RouterModule.forRoot([
       { path: '', redirectTo: 'cars', pathMatch: 'full' },
       { path: 'cars', component: CarsListComponent, pathMatch: 'full' },
+      { path: 'cars/user', component: UserCarsComponent, pathMatch: 'full' },
       { path: 'car/new', component: CarFormComponent, pathMatch: 'full' },
       { path: 'car/:id', component: ManageCarComponent, pathMatch: 'full' },
       { path: 'car/edit/:id', component: CarFormComponent, pathMatch: 'full' },
+      { path: '**', component: NotFoundComponent, pathMatch: 'full' },
     ]),
     AuthModule.forRoot({
       // The domain and clientId were configured in the previous chapter
@@ -79,7 +85,7 @@ Sentry.init({
   ],
   providers: [
     AuthClientConfig,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     // { provide: ErrorHandler, useClass: AppErrorHandler },
     // {
     //   provide: Sentry.TraceService,

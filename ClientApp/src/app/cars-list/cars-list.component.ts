@@ -46,18 +46,18 @@ export class CarsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.populateCars()
+    this.populateQueryResult()
 
     this.subs.push(this.carQuery.valueChanges.pipe(pairwise()).subscribe(([prev, next]) => {
       if (prev.Page > 1 && prev.Page == next.Page)
         this.carQuery.patchValue({ Page: 1 })
 
-      this.populateCars()
+      this.populateQueryResult()
     }))
 
   }
 
-  populateCars() {
+  populateQueryResult() {
     this.CarSv.getCars(this.carQuery.value).subscribe(result => this.queryResult = result)
   }
 
@@ -74,7 +74,7 @@ export class CarsListComponent implements OnInit, OnDestroy {
 
   changePage(Page: number) {
     this.carQuery.patchValue({ Page })
-    this.populateCars();
+    this.populateQueryResult();
   }
 
 }

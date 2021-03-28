@@ -34,7 +34,6 @@ namespace vcar.Controllers.api
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetCars(CarQueryResource carQueryResource)
         {
             var carQuery = _mapper.Map<CarQueryResource, CarQuery>(carQueryResource);

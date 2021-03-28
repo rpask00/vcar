@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)='submitForm()' novalidate>
+<form *ngIf="auth.isAuthenticated$ | async; else notlogged" [formGroup]="form" (ngSubmit)='submitForm()' novalidate>
   <div formGroupName="Contact">
     <div class="form-group">
       <h5 for="contactName">Contact Name</h5>
@@ -105,3 +105,8 @@
   <br>
   <button type="submit" [disabled]="!form.valid" class="btn btn-primary">Submit</button>
 </form>
+
+
+<ng-template #notlogged>
+  <h1>You need to <a (click)="auth.loginWithRedirect()">log in</a> order to add new car</h1>
+</ng-template>

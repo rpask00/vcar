@@ -58,6 +58,9 @@ namespace vcar.Persistance
             if (carQuery.PriceMin.HasValue)
                 query = query.Where(c => c.Price >= carQuery.PriceMin);
 
+            if (!string.IsNullOrEmpty(carQuery.Owner))
+                query = query.Where(c => c.Email == carQuery.Owner);
+
 
 
             if (!string.IsNullOrEmpty(carQuery.sortBy))

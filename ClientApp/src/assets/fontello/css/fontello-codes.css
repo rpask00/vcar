@@ -15,8 +15,10 @@
 .icon-down-micro:before { content: '\e80d'; } /* '' */
 .icon-up-micro:before { content: '\e80e'; } /* '' */
 .icon-home:before { content: '\e80f'; } /* '' */
+.icon-money:before { content: '\e810'; } /* '' */
 .icon-location:before { content: '\f031'; } /* '' */
 .icon-github-circled:before { content: '\f09b'; } /* '' */
+.icon-list-bullet:before { content: '\f0ca'; } /* '' */
 .icon-sort:before { content: '\f0dc'; } /* '' */
 .icon-plus-squared:before { content: '\f0fe'; } /* '' */
 .icon-direction:before { content: '\f124'; } /* '' */

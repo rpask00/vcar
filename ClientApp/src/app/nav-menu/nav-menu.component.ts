@@ -15,7 +15,9 @@ export class NavMenuComponent implements OnInit {
   constructor(
     private http: HttpClient,
     public auth: AuthService
-  ) { }
+  ) { 
+    auth.isAuthenticated$
+  }
 
   ngOnInit() {
   }

@@ -137,6 +137,18 @@
       "css": "sort",
       "code": 61660,
       "src": "fontawesome"
+    },
+    {
+      "uid": "a2a74f5e7b7d9ba054897d8c795a326a",
+      "css": "list-bullet",
+      "code": 61642,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "212ab54aac31030950fec3e2448ebee9",
+      "css": "money",
+      "code": 59408,
+      "src": "modernpics"
     }
   ]
 }
