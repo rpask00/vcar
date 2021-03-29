@@ -6,6 +6,6 @@ namespace vcar.Core
 {
     public interface IPhotoService
     {
-        Task<Photo> UploadPhoto(Car car, IFormFile File, string folderPath, string fileName);
+        Task<Photo> UploadPhoto(Car car, IFormFile File);
     }
 }

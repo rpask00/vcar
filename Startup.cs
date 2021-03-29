@@ -39,6 +39,7 @@ namespace vcar
             services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IPhotoService, PhotoService>();
+            services.AddTransient<IFileStorage, FileStorage>();
             services.AddAutoMapper();
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory

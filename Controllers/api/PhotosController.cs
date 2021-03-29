@@ -78,13 +78,8 @@ namespace vcar.Controllers.api
             if (!_photoSettings.isSuported(File.FileName))
                 return BadRequest("File type not supported");
 
-            var uploadsFolderPath = Path.Combine(_host.WebRootPath, "uploads");
 
-            if (!Directory.Exists(uploadsFolderPath))
-                Directory.CreateDirectory(uploadsFolderPath);
-
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(File.FileName);
-            var Photo = await _photoService.UploadPhoto(car, File, uploadsFolderPath, fileName);
+            var Photo = await _photoService.UploadPhoto(car, File);
 
             return Ok(_mapper.Map<Photo, PhotoResource>(Photo));
 
