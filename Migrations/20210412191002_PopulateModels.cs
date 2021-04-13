@@ -2,11 +2,11 @@
 
 namespace vcar.Migrations
 {
-    public partial class PopulateDatabase : Migration
+    public partial class PopulateModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("INSERT INTO Makes (Name) VALUES('BMW')");
+        migrationBuilder.Sql("INSERT INTO Makes (Name) VALUES('BMW')");
             migrationBuilder.Sql("INSERT INTO Makes (Name) VALUES('Audi')");
             migrationBuilder.Sql("INSERT INTO Makes (Name) VALUES('Toyota')");
 
@@ -21,12 +21,12 @@ namespace vcar.Migrations
             migrationBuilder.Sql("INSERT INTO Models (Name,MakeId) VALUES('A3',(SELECT Id from Makes WHERE Name ='Audi'))");
             migrationBuilder.Sql("INSERT INTO Models (Name,MakeId) VALUES('R6',(SELECT Id from Makes WHERE Name ='Audi'))");
             migrationBuilder.Sql("INSERT INTO Models (Name,MakeId) VALUES('S3',(SELECT Id from Makes WHERE Name ='Audi'))");
-
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("Delete from Makes");
+
         }
     }
 }

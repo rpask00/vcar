@@ -19,21 +19,21 @@ namespace vcar
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
-
             // services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration["ConnectionStrings:Default"])); <------------to samo |
-            services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration.GetConnectionString("Default")));                //    \/
+            //services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration.GetConnectionString("Local")));                //    \/
+
+            services.AddDbContext<VcarContext>(o => o.UseMySQL(Configuration.GetConnectionString("Remote")));
+
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotosSettings"));
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
