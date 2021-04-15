@@ -26,11 +26,8 @@ namespace vcar
         }
 
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration["ConnectionStrings:Default"])); <------------to samo |
-            //services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration.GetConnectionString("Local")));                //    \/
 
             services.AddDbContext<VcarContext>(o => o.UseMySQL(Configuration.GetConnectionString("Remote")));
 
@@ -47,7 +44,6 @@ namespace vcar
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
 
             services.AddCors(options =>
                   {
