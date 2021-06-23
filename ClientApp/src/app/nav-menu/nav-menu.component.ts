@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
-  styleUrls: ['./nav-menu.component.scss']
+  styleUrls: ['./nav-menu.component.scss'],
 })
 export class NavMenuComponent implements OnInit {
   isExpanded = false;
@@ -15,7 +15,7 @@ export class NavMenuComponent implements OnInit {
   constructor(
     private http: HttpClient,
     public auth: AuthService
-  ) { 
+  ) {
     auth.isAuthenticated$
   }
 

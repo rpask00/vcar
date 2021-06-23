@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace vcar.Migrations
 {
-    public partial class InitialModel : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,9 +11,9 @@ namespace vcar.Migrations
                 name: "Features",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -25,9 +24,9 @@ namespace vcar.Migrations
                 name: "Makes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,10 +37,10 @@ namespace vcar.Migrations
                 name: "Models",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
-                    MakeId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    MakeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,16 +57,16 @@ namespace vcar.Migrations
                 name: "Cars",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    ModelId = table.Column<int>(nullable: false),
-                    Price = table.Column<int>(nullable: false),
-                    Email = table.Column<string>(maxLength: 30, nullable: false),
-                    ContactName = table.Column<string>(maxLength: 30, nullable: false),
-                    year = table.Column<int>(nullable: false),
-                    registered = table.Column<bool>(nullable: false),
-                    lasUpdate = table.Column<DateTime>(nullable: false),
-                    thumbnail = table.Column<string>(nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ModelId = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    ContactName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    year = table.Column<int>(type: "int", nullable: false),
+                    registered = table.Column<bool>(type: "bit", nullable: false),
+                    lasUpdate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    thumbnail = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,8 +83,8 @@ namespace vcar.Migrations
                 name: "CarsFeatures",
                 columns: table => new
                 {
-                    CarId = table.Column<int>(nullable: false),
-                    FeatureId = table.Column<int>(nullable: false)
+                    CarId = table.Column<int>(type: "int", nullable: false),
+                    FeatureId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -108,10 +107,10 @@ namespace vcar.Migrations
                 name: "Photos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 255, nullable: false),
-                    CarId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CarId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

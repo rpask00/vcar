@@ -29,7 +29,8 @@ namespace vcar
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<VcarContext>(o => o.UseMySQL(Configuration.GetConnectionString("Remote")));
+            services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration.GetConnectionString("Local")));
+            // services.AddDbContext<VcarContext>(o => o.UseMySQL(Configuration.GetConnectionString("Remote")));
 
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotosSettings"));
             services.AddScoped<ICarRepository, CarRepository>();

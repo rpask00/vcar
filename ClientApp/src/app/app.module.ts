@@ -85,7 +85,7 @@ Sentry.init({
   ],
   providers: [
     AuthClientConfig,
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     // { provide: ErrorHandler, useClass: AppErrorHandler },
     // {
     //   provide: Sentry.TraceService,

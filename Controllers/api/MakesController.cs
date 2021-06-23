@@ -15,7 +15,7 @@ namespace vcar.Controllers.api
     public class MakesController : Controller
     {
         private readonly VcarContext _context;
-        private readonly IMapper _mapper;
+        private readonly IMapper _mapper;   
 
         public MakesController(VcarContext context, IMapper mapper)
         {

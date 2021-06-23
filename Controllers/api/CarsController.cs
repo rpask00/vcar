@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace vcar.Controllers.api
 {
+    [Authorize]
     [Route("api/cars")]
     public class CarsController : Controller
     {
