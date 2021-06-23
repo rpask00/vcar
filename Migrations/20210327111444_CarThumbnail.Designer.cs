@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace vcar.Migrations
 {
     [DbContext(typeof(VcarContext))]
-    [Migration("20210623193052_Initial")]
-    partial class Initial
+    [Migration("20210327111444_CarThumbnail")]
+    partial class CarThumbnail
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
