@@ -1,9 +1,6 @@
 # Aplikacja z ogłoszeniami samochodów używanych.
 
-App is build using ASP.NET Core on backend and Angular on frontend, it is also connected to myssql database by Entity Framework Core using code-first workflow.
-
 https://vcarrr.herokuapp.com/cars
-
 
 ## Skład zespołu: 
 
