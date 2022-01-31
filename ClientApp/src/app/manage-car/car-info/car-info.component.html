@@ -1,0 +1,24 @@
+<div class="car" *ngIf="car">
+  <div class="card border-primary mb-3" style="max-width: 100%;">
+    <div class="card-header">Contact</div>
+    <div class="card-body">
+      <h4 class="card-title"><span>Name | </span> {{car.contact.name}}</h4>
+      <h4 class="card-title"><span>Email | </span> {{car.contact.email}}</h4>
+    </div>
+  </div>
+
+  <div class="card border-primary mb-3" style="max-width: 100%;">
+    <div class="card-header">Car</div>
+    <div class="card-body">
+      <h4 class="card-title"><span>Make | </span> {{car.make.name}}</h4>
+      <h4 class="card-title"><span>Model | </span> {{car.model.name}}</h4>
+      <h4 class="card-title"><span>Year | </span> {{car.year}}</h4>
+      <h4 class="card-title"><span>Price | </span> {{car.price}}</h4>
+      <h4 class="card-title"><span>Registered | </span> {{car.registered ? "yes" : "no"}}</h4>
+    </div>
+  </div>
+
+  <a [routerLink]="['/car/edit',car.id]" class="btn btn-primary">Edit</a>
+  <button type="button" class="btn btn-danger" (click)="delete(car.id)">Delete</button>
+  <a [routerLink]="['/cars']" class="btn btn-link">All cars</a>
+</div>

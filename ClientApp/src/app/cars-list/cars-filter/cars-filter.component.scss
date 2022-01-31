@@ -1,0 +1,21 @@
+.card,
+table {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.card {
+    padding: 10px;
+}
+
+.filter-row {
+    width: 100%;
+    display: flex;
+
+    div {
+        margin: 10px;
+        flex-grow: 1;
+
+    }
+}
+

@@ -1,0 +1,18 @@
+  <div *ngIf="queryResult?.items.length; else nocars">
+    <label class="title">List of your cars</label>
+    <app-list-of-cars [renderOwner]='false' [cars]='queryResult.items'></app-list-of-cars>
+
+    <app-pagination
+                    *ngIf="queryResult.size > PageSize"
+                    [itemsPerPage]="PageSize"
+                    [totalPages]="queryResult.size"
+                    (onPageChange)="changePage($event)">
+    </app-pagination>
+
+  </div>
+
+  <ng-template #nocars>
+    <label class="title">You don't have any cars yet, you can add one
+      <a [routerLink]="['/car/new']">here</a>
+    </label>
+  </ng-template>

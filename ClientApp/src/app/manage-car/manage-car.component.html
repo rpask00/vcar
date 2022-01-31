@@ -1,0 +1,9 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item" *ngFor="let tab of tabs" (click)="changeView(tab.id)">
+    <a class="nav-link" [class.active]="tab.id==view.id" data-toggle="tab">{{tab.name}}</a>
+  </li>
+</ul>
+<div id="myTabContent" class="tab-content">
+  <app-car-info [id]="id" *ngIf="view.id == 1"></app-car-info>
+  <app-car-photos [id]="id" *ngIf="view.id == 2"></app-car-photos>
+</div>

@@ -1,0 +1,25 @@
+form {
+    margin-top: 30px;
+}
+
+.delete {
+    margin-left: 10px;
+
+}
+
+h1 {
+    margin-top: 50px;
+    text-align: center;
+    color: rgba(245, 245, 245, 0.618);
+
+    a {
+        color: rgba(30, 235, 116, 0.734);
+        cursor: pointer;
+    }
+
+
+    a:hover {
+        transition: .1s;
+        color: rgba(14, 155, 73, 0.672);
+    }
+}

@@ -1,0 +1,49 @@
+<form class="card" [formGroup]="carQuery">
+  <label class="title">Filter cars list</label>
+  <div class="form-group">
+    <div class="filter-row">
+
+      <div class="make">
+        <label for="makeFilter">Make</label>
+        <select formControlName="makeId"
+                class="form-control" id="makeFilter">
+          <option></option>
+          <option *ngFor="let make of makes" [value]="make.id">{{make.name}}</option>
+        </select>
+      </div>
+
+      <div class="model" *ngIf="models">
+        <label for="modelFilter">Model</label>
+        <select formControlName="modelId" class="form-control" id="modelFilter">
+          <option></option>
+          <option *ngFor="let model of models" [value]="model.id">{{model.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <div class="form-group">
+        <label>Min Price</label>
+        <input formControlName="pricemin" class="form-control form-control-sm" type="number">
+      </div>
+      <div class="form-group">
+        <label>Max Price</label>
+        <input formControlName="pricemax" class="form-control form-control-sm" type="number">
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <div class="form-group">
+        <label>Min year</label>
+
+        <input formControlName="yearmin" class="form-control form-control-sm" type="number">
+      </div>
+      <div class="form-group">
+        <label>Max year</label>
+        <input formControlName="yearmax" class="form-control form-control-sm" type="number">
+      </div>
+    </div>
+
+
+  </div>
+</form>

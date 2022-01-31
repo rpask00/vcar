@@ -1,0 +1,54 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" [routerLink]="['/']">Vcar</a>
+      <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target=".navbar-collapse"
+              aria-label="Toggle navigation"
+              [attr.aria-expanded]="isExpanded"
+              (click)="toggle()">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse d-sm-inline-flex" [ngClass]="{ show: isExpanded }">
+        <ul class="navbar-nav mr-auto">
+
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link " [routerLink]="['/cars']">
+              <i class="demo-icon icon-bookmark"></i>Cars
+            </a>
+          </li>
+
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link " [routerLink]="['/car/new']">
+              <i class="demo-icon icon-money"></i> Sell Car
+            </a>
+          </li>
+
+
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="auth.isAuthenticated$ | async">
+            <a class="nav-link " [routerLink]="['/cars/user']">
+              <i class="demo-icon icon-list-bullet"></i> Your cars
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-link log" *ngIf="auth.user$ | async as user;else notlogged">
+          <span (click)="auth.logout()">
+            <i class="demo-icon icon-left"></i>Logout <span class="username">| {{user.name}}</span> </span>
+
+        </div>
+
+        <ng-template #notlogged>
+          <div class="nav-link log" (click)="auth.loginWithRedirect()">
+            <span>Login</span>
+          </div>
+        </ng-template>
+
+      </div>
+    </div>
+
+  </nav>
+</header>

@@ -1,0 +1,43 @@
+<table class="table table-striped ">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th *ngFor="let column of columns" scope="col">
+        <span *ngIf="column.isSortable" (click)="_sort(column.name)">
+          {{column.name}}
+          <i class="demo-icon"
+             [class.icon-down-micro]="sortBy == column.name && sortAsc"
+             [class.icon-up-micro]="sortBy == column.name &&  !sortAsc"></i>
+        </span>
+        <span *ngIf="!column.isSortable">{{column.name}}</span>
+      </th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let car of cars">
+      <td class="align-middle" scope="col">
+        <img *ngIf="car.thumbnail; else noimage" src="uploads/{{car.thumbnail}}" alt="">
+        <ng-template #noimage>
+          <img src="../../assets/noimage.png">
+        </ng-template>
+      </td>
+      <td *ngIf="renderOwner" class="align-middle" scope="col">{{car.contact.name}}</td>
+      <td class="align-middle" scope="col">{{car.price | currency}}</td>
+      <!-- <td class="align-middle" scope="col">{{car.contact.email}}</td> -->
+      <td class="align-middle" scope="col">{{car.make.name}}</td>
+      <td class="align-middle" scope="col">{{car.model.name}}</td>
+      <td class="align-middle" scope="col">{{car.year}}</td>
+      <!-- <td class="align-middle" scope="col">{{car.registered ? "yes" : "no"}}</td> -->
+      <td class="align-middle" scope="col">
+        <a class="btn"
+           *ngIf="(auth.user$ | async)?.email == car.contact.email"
+           [routerLink]="['/car/edit',car.id]"> Edit
+        </a>
+
+        <a class="btn" [routerLink]="['/car',car.id]"> View</a>
+      </td>
+    </tr>
+
+  </tbody>
+</table>

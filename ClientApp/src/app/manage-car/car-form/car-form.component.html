@@ -1,0 +1,112 @@
+<form *ngIf="auth.isAuthenticated$ | async; else notlogged" [formGroup]="form" (ngSubmit)='submitForm()' novalidate>
+  <div formGroupName="Contact">
+    <div class="form-group">
+      <h5 for="contactName">Contact Name</h5>
+      <input formControlName='Name' type="text" class="form-control" id="contactName" placeholder="Name">
+      <div class="alert alert-danger"
+           *ngIf='Contact.controls.Name.touched &&  Contact.controls.Name.invalid'>Please specify name</div>
+    </div>
+    <div class="form-group">
+      <h5 for="email">Email address</h5>
+      <input
+             formControlName='Email'
+             type="email" class="form-control" id="email" aria-describedby="emailHelp"
+             placeholder="Enter email">
+      <div class="alert alert-danger"
+           *ngIf='Contact.controls.Email.touched &&  Contact.controls.Email.invalid'>Please specify email</div>
+    </div>
+
+  </div>
+  <div class="form-group">
+    <h5>Year</h5>
+    <input
+           formControlName='Year'
+           type="number" class="form-control" id="Year">
+    <div class="alert alert-danger"
+         *ngIf='form.controls.Year.touched &&  form.controls.Year.invalid'>Please specify year</div>
+  </div>
+
+
+
+
+  <h5>Price</h5>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text">$</span>
+    </div>
+    <input type="number" class="form-control" formControlName='Price' aria-label="Price">
+  </div>
+  <div class="alert alert-danger"
+       *ngIf='form.controls.Price.touched &&  form.controls.Price.invalid'>Please specify Price</div>
+
+  <div class="form-group">
+    <h5 for="make">Select Make</h5>
+    <select
+            formControlName='Make'
+            *ngIf="makes$ | async as makes"
+            class="form-control" id="make"
+            (change)="selectMake($event.target.value)">
+      <option value=''></option>
+      <option *ngFor='let make of makes' value="{{make.id}}">{{make.name}}</option>
+    </select>
+
+    <div class="alert alert-danger"
+         *ngIf='form.controls.Make.touched && form.controls.Make.invalid'>Please specify make</div>
+  </div>
+
+
+
+  <div class="form-group" *ngIf="avalibleModels">
+    <h5 for="modles">Select Model</h5>
+    <select formControlName='ModelId'
+            class="form-control" id="modles">
+      <option *ngFor='let model of avalibleModels' value='{{model.id}}'>{{model.name}}</option>
+    </select>
+
+  </div>
+
+  <h5>Is Car registered?</h5>
+  <div>
+    <div class="form-check form-check-inline">
+      <input formControlName='registered'
+             class="form-check-input" type="radio" name="registered"
+             id="inlineRadio1" [value]=true />
+      <label class="form-check-label" for="inlineRadio1">Yes</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input formControlName='registered'
+             class="form-check-input" type="radio" name="registered"
+             id="inlineRadio2" [value]=false />
+      <label class="form-check-label" for="inlineRadio2">No</label>
+    </div>
+  </div>
+  <div class="alert alert-danger"
+       *ngIf='form.controls.registered.touched &&  form.controls.registered.invalid'>Please specify if car is registered
+  </div>
+
+
+  <br>
+  <h5>Features</h5>
+  <div class="checkboxes" *ngIf="features$ | async as features">
+    <div class="form-check" *ngFor="let feature of features">
+      <input
+             [checked]="form.value.Features.has(feature.id)"
+             class="form-check-input"
+             type="checkbox"
+             value="{{feature.id}}"
+             (change)='selectFeature($event,feature.id)'
+             id="flexCheckDefault{{feature.id}}">
+      <label class="form-check-label" for="flexCheckDefault{{feature.id}}">
+        {{feature.name}}
+      </label>
+    </div>
+  </div>
+
+  <br>
+  <button type="submit" [disabled]="!form.valid" class="btn btn-primary">Submit</button>
+</form>
+
+
+<ng-template #notlogged>
+  <h1>You need to <a (click)="auth.loginWithRedirect()">log in</a> order to add new car</h1>
+</ng-template>

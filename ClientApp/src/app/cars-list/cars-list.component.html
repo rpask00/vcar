@@ -1,0 +1,15 @@
+<app-cars-filter [carQuery]=carQuery></app-cars-filter>
+
+
+<app-list-of-cars
+                  [sortBy]='carQuery.value.sortBy'
+                  [sortAsc]='carQuery.value.sortAsc'
+                  [cars]='queryResult.items'
+                  (sort)='sort($event)'></app-list-of-cars>
+
+<app-pagination
+                *ngIf="queryResult.size > carQuery.value.PageSize"
+                [itemsPerPage]="carQuery.value.PageSize"
+                [totalPages]="queryResult.size"
+                (onPageChange)="changePage($event)">
+</app-pagination>
