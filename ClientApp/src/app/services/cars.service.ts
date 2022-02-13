@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Car, Model, Make, QueryResult } from './../interfaces/car';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {Car, Model, Make, QueryResult} from '../interfaces/car';
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +59,7 @@ export class CarsService {
   }
 
   deleteCar(id: number): Observable<Car> {
-    return this.http.delete('/api/cars/' + id) as Observable<Car>
+    return this.http.delete(this.origin + '/api/cars/' + id) as Observable<Car>
   }
 
 
