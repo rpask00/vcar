@@ -14,7 +14,6 @@ using vcar.Core.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
-
 namespace vcar
 {
     public class Startup
@@ -28,8 +27,9 @@ namespace vcar
 
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration.GetConnectionString("Local")));
+            
+            services.AddDbContext<VcarContext>(o => o.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=Vcar;Trusted_Connection=True;"));
+            // services.AddDbContext<VcarContext>(o => o.UseSqlServer(Configuration.GetConnectionString("Local")));
             // services.AddDbContext<VcarContext>(o => o.UseMySQL(Configuration.GetConnectionString("Remote")));
 
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotosSettings"));

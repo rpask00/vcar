@@ -1,40 +1,27 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler, APP_INITIALIZER, enableProdMode } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Router, RouterModule } from '@angular/router';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
 
-import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { CarFormComponent } from './manage-car/car-form/car-form.component';
-import { ToastrModule } from 'ngx-toastr';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppErrorHandler } from './error-handler';
-import * as Sentry from "@sentry/angular";
-import { Integrations } from '@sentry/tracing';
-import { CarsListComponent } from './cars-list/cars-list.component';
-import { PaginationComponent } from './shared/pagination/pagination.component';
-import { ManageCarComponent } from './manage-car/manage-car.component';
-import { CarPhotosComponent } from './manage-car/car-photos/car-photos.component';
-import { CarInfoComponent } from './manage-car/car-info/car-info.component';
-import { AuthClientConfig, AuthHttpInterceptor, AuthModule, AuthService } from '@auth0/auth0-angular';
-import { environment } from 'src/environments/environment';
-import { CarsFilterComponent } from './cars-list/cars-filter/cars-filter.component';
-import { ListOfCarsComponent } from './shared/list-of-cars/list-of-cars.component';
-import { NotFoundComponent } from './shared/not-found/not-found.component';
-import { UserCarsComponent } from './user-cars/user-cars.component';
+import {AppComponent} from './app.component';
+import {NavMenuComponent} from './nav-menu/nav-menu.component';
+import {CarFormComponent} from './manage-car/car-form/car-form.component';
+import {ToastrModule} from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CarsListComponent} from './cars-list/cars-list.component';
+import {PaginationComponent} from './shared/pagination/pagination.component';
+import {ManageCarComponent} from './manage-car/manage-car.component';
+import {CarPhotosComponent} from './manage-car/car-photos/car-photos.component';
+import {CarInfoComponent} from './manage-car/car-info/car-info.component';
+import {AuthClientConfig, AuthHttpInterceptor, AuthModule} from '@auth0/auth0-angular';
+import {environment} from 'src/environments/environment';
+import {CarsFilterComponent} from './cars-list/cars-filter/cars-filter.component';
+import {ListOfCarsComponent} from './shared/list-of-cars/list-of-cars.component';
+import {NotFoundComponent} from './shared/not-found/not-found.component';
+import {UserCarsComponent} from './user-cars/user-cars.component';
 
 
-Sentry.init({
-  dsn: environment.Sentry.dsn,
-  integrations: [
-    new Integrations.BrowserTracing({
-      tracingOrigins: ["localhost", "https://yourserver.io/api"],
-      routingInstrumentation: Sentry.routingInstrumentation,
-    }),
-  ],
-  tracesSampleRate: 1.0,
-});
 
 @NgModule({
   declarations: [
@@ -77,7 +64,7 @@ Sentry.init({
 
       // Request this scope at user authentication time
 
-      // Specify configuration for the interceptor              
+      // Specify configuration for the interceptor
       httpInterceptor: {
         allowedList: environment.httpInterceptor.allowedList,
       }
