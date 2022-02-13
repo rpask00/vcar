@@ -1,0 +1,6 @@
+{
+    "domain": "insecure.eu.auth0.com",
+    "clientId": "QK4HoFJlFr75wOJq5SW58q0SfJZCSzyV",
+    "audience": "https://api.vcarr.com",
+    "apiUri": "https://localhost:5001/api"
+}
