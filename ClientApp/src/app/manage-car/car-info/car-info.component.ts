@@ -40,3 +40,4 @@ export class CarInfoComponent implements OnInit, OnDestroy {
   }
 
 }
+

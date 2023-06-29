@@ -26,3 +26,4 @@ exports.config = {
       .addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
   }
 };
+

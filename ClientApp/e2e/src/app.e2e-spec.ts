@@ -12,3 +12,4 @@ describe('App', () => {
     expect(page.getMainHeading()).toEqual('Hello, world!');
   });
 });
+

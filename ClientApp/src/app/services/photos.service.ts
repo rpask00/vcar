@@ -27,3 +27,4 @@ export class PhotosService {
     return this.http.get(`api/cars/${carId}/photos`);
   }
 }
+

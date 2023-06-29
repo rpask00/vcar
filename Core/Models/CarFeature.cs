@@ -16,3 +16,4 @@ namespace vcar.Core.Models
         public Feature Feature { get; set; }
     }
 }
+

@@ -61,3 +61,4 @@ W bramce logowania możemy zalogować się przez google lub githuba
 ## Ograniczenia
 ![](https://i.imgur.com/6KDmHty.png)
 Dodawać ogłoszenia mogą tylko zalogowani użytkownicy.
+
